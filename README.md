@@ -1,0 +1,3 @@
+<h1 style="text-align: center; margin-bottom: 21px;" >This is toDo app using PHP 8.1 and MySQL Database</h1>
+<div style="display: flex; justify-content: center; margin-bottom: 40px"><a href="https://github.com/ttoomas" style="color: white; font-size: 21px">Created by <span style="color: lightblue">ttoomas</span></a></div>
+<p style="text-align: center; font-size: 16px">You can see live page <a href="https://todo-app-ttoomas.herokuapp.com" style="color: lightblue">HERE</a>.</p><p style="text-align: center; margin-top: -5px; font-size: 16px">Supported by <a href="https://heroku.com" style="color: lightyellow">Heroku pages</a> and <a href="https://www.cleardb.com/" style="color: lightyellow">ClearDB MySQL</a>. Thanks <span style="color: red"><3</span></p>
