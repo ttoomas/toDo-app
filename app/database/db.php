@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require('connect.php');
 
 function sw($value) // To show some infomation later
@@ -139,7 +141,3 @@ function delete($table, $id)
     $stmt = executeQuery($sql, ['id' => $id]);
     return $stmt->affected_rows;
 }
-
-
-$id = delete('users', 2);
-sw($id);
