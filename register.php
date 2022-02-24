@@ -15,12 +15,8 @@ include(ROOT_PATH . "/app/controllers/users.php");
 </head>
 <body>
 
-<nav class="header container">
-    <div class="header__menu">
-        <a href="#" class="header__link">Login</a>
-        <a href="#" class="header__link">Register</a>
-    </div>
-</nav>
+<?php include (ROOT_PATH . '/app/includes/header.php'); ?>
+
 <main class="main container">
     <form action="register.php" method="POST" class="main__section">
         <h1 class="main__title">Register</h1>

@@ -90,6 +90,22 @@ body{
 .main__errors .main__error:not(:last-child){
 	margin-bottom: 0.375rem;
 }
+.main__msgBx{
+	margin: -0.875rem 0 1.125rem 0;
+	padding: 0;
+	align-self: flex-start;
+}
+.main__msg{
+	list-style: none;
+}
+.main__msg:not(:last-child){
+	margin-bottom: 0.25rem;
+}
+.main__msg.success{
+	color: #00a300;
+}.main__msg.error{
+	color: #f40000;
+}
 
 .main__box{
 	position: relative;

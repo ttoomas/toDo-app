@@ -1,22 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap'); /* Inter */
 
 html{
-    font-size: 100%;
-    box-sizing: border-box;
+	font-size: 100%;
+	box-sizing: border-box;
 }
 *, *::before, *::after{
-    box-sizing: inherit;
+	box-sizing: inherit;
 }
 body{
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;;
-    font-weight: 400;
-    font-size: 17px;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
+	margin: 0;
+	padding: 0;
+	font-family: 'Inter', sans-serif;;
+	font-weight: 400;
+	font-size: 17px;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
 }
 
 .container{
@@ -90,12 +90,28 @@ body{
 .main__errors .main__error:not(:last-child){
 	margin-bottom: 0.375rem;
 }
+.main__msgBx{
+	margin: -0.875rem 0 1.125rem 0;
+	padding: 0;
+	align-self: flex-start;
+}
+.main__msg{
+	list-style: none;
+}
+.main__msg:not(:last-child){
+	margin-bottom: 0.25rem;
+}
+.main__msg.success{
+	color: #00a300;
+}.main__msg.error{
+	 color: #f40000;
+ }
 
 .main__box{
 	position: relative;
 }
 .main__box:not(:nth-last-of-type(2)){
-    margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }
 
 .main__label{
@@ -151,7 +167,7 @@ body{
 	width: 50%;
 }
 .main__enterBx{
-    margin: 2.25rem 0 0 0;
+	margin: 2.25rem 0 0 0;
 }
 .main__enter{
 	position: relative;
@@ -227,15 +243,15 @@ body{
 }
 
 @media only screen and (min-width: 24em) and (max-width: 43em){
-    .container{
-        padding: 0 2rem 2.25rem 2rem;
-    }
+	.container{
+		padding: 0 2rem 2.25rem 2rem;
+	}
 }
 
 @media only screen and (max-width: 23.9375em){
-    .container{
-        padding: 0 1rem 2.25rem 1rem;
-    }
+	.container{
+		padding: 0 1rem 2.25rem 1rem;
+	}
 	.main__input{
 		width: 13.5rem;
 	}
@@ -255,7 +271,7 @@ body{
 }
 
 @media only screen and (max-height: 36.625rem){
-    .header{
-        padding-bottom: 6rem !important;
-    }
+	.header{
+		padding-bottom: 6rem !important;
+	}
 }
