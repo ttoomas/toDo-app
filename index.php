@@ -8,7 +8,7 @@ include(ROOT_PATH . "/app/controllers/users.php");
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>ToDo App - Login</title>
+    <title>Login | ToDo App</title>
 
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
@@ -21,22 +21,23 @@ include(ROOT_PATH . "/app/controllers/users.php");
     <form action="index.php" method="POST" class="main__section">
         <h1 class="main__title">Sign in</h1>
         <?php include(ROOT_PATH . "/app/helpers/formErrors.php"); ?>
+        <?php include(ROOT_PATH . '/app/includes/messages.php'); ?>
         <div class="main__box">
-            <input type="username" name="username" class="main__input" id="username" required autocomplete="username" placeholder="Username" value="<?php echo $username; ?>">
+            <input type="username" name="username" class="main__input" id="username" required placeholder="Username" value="<?php echo $username; ?>">
             <label for="username" class="main__label">Username</label>
         </div>
         <div class="main__box">
             <input type="password" name="password" class="main__input" id="password" required placeholder="Password">
             <label for="password" class="main__label">Password</label>
         </div>
-        <a href="#" class="main__forgot">Forgot your Password?</a>
+        <a href="<?php echo BASE_URL . '/forgot-password.php'; ?>" class="main__forgot">Forgot your Password?</a>
         <div class="main__enterBx">
             <button type="submit" name="login-btn" class="main__enter">Login</button>
         </div>
         <p class="main__or">
             <span>or</span>
         </p>
-        <p class="main__dontAcc">Don't have an account?<a href="#" class="main__dontLink">Register</a></p>
+        <p class="main__dontAcc">Don't have an account?<a href="<?php echo BASE_URL . '/register.php' ?>" class="main__dontLink">Register</a></p>
     </form>
 </main>
 

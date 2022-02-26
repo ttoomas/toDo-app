@@ -105,7 +105,7 @@ function create($table, $data)
     return $id;
 }
 
-function update($table, $id, $data)
+function updateById($table, $id, $data)
 {
     // UPDATE users SET username=?, email=?, password=? WHERE id=?
 
@@ -126,6 +126,32 @@ function update($table, $id, $data)
 
     $sql = $sql . " WHERE id=?";
     $data['id'] = $id;
+
+    $stmt = executeQuery($sql, $data);
+    return $stmt->affected_rows;
+}
+
+function updateByEmail($table, $email, $data)
+{
+    // UPDATE users SET password=? WHERE email=?
+
+    global $conn;
+    $sql = "UPDATE $table SET ";
+
+    $i = 0;
+
+    foreach($data as $key => $value){
+        if($i === 0){
+            $sql = $sql . " $key=?";
+        }
+        else{
+            $sql = $sql . ", $key=?";
+        }
+        $i++;
+    }
+
+    $sql = $sql . " WHERE email=?";
+    $data['email'] = $email;
 
     $stmt = executeQuery($sql, $data);
     return $stmt->affected_rows;

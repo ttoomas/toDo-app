@@ -8,7 +8,7 @@ include(ROOT_PATH . "/app/controllers/users.php");
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>ToDo App - Register</title>
+    <title>Register | ToDo App</title>
 
     <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="assets/css/main.css">
@@ -21,6 +21,7 @@ include(ROOT_PATH . "/app/controllers/users.php");
     <form action="register.php" method="POST" class="main__section">
         <h1 class="main__title">Register</h1>
         <?php include(ROOT_PATH . "/app/helpers/formErrors.php"); ?>
+        <?php include(ROOT_PATH . '/app/includes/messages.php'); ?>
         <div class="main__box">
             <input type="text" name="username" class="main__input" id="username" placeholder="Username" value="<?php echo $username ?>">
             <label for="username" class="main__label">Username</label>
@@ -43,7 +44,7 @@ include(ROOT_PATH . "/app/controllers/users.php");
         <p class="main__or">
             <span>or</span>
         </p>
-        <p class="main__dontAcc">Have you already account?<a href="#" class="main__dontLink">Login</a></p>
+        <p class="main__dontAcc">Have you already account?<a href="<?php echo BASE_URL . '/' ?>" class="main__dontLink">Login</a></p>
     </form>
 </main>
 

@@ -1,5 +1,6 @@
 <?php
 
+// Register validate
 function validateUser($user)
 {
     $errors = array();

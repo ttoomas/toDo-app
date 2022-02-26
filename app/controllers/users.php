@@ -28,11 +28,14 @@ if(isset($_POST['register-btn'])){
 
     if(count($errors) === 0){
         unset($_POST['passwordConf'], $_POST['register-btn']);
-
+        
         $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $_POST['token'] = bin2hex(random_bytes(55));
 
-        $user_id = create('$table', $_POST);
-        $user = selectOne('$table', ['id' => $user_id]);
+        // sw($_POST);
+        
+        $user_id = create($table, $_POST);
+        $user = selectOne($table, ['id' => $user_id]);
         
         loginUser($user);
     }
