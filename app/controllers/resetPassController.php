@@ -2,6 +2,7 @@
 
 include(ROOT_PATH . "/app/database/db.php");
 include(ROOT_PATH . "/app/controllers/emailController.php");
+include(ROOT_PATH . "/app/helpers/validatePassword.php");
 
 $errors = array();
 
@@ -9,22 +10,37 @@ $errors = array();
 if(isset($_POST['forgot-pass-btn'])){
     $email = $_POST['email'];
 
-    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-        $errors['email'] = "Email address is invalid";
-    }
-    if(empty($email)){
-        $errors['email'] = "Email required";
-    }
+    $errors = validateEmail($email);
 
     if(count($errors) == 0){
         $user = selectOne('users', ['email' => $email]);
-        // sw($user);
 
-        $token = $user['token'];
-        sendPasswordResetLink($email, $token);
+        $curDate = date("Y-m-d H:i:s");
 
-        $_SESSION['message'] = 'Email sent successfully, check your email.';
-        $_SESSION['type'] = 'success';
+        if(empty($user['pass_exp_date']) || $user['pass_exp_date'] <= $curDate){
+            // sw($user);
+            
+            $id = $user['id'];
+            $token = bin2hex(random_bytes(55));
+            // $token = $user['token'];
+            // $token = "somethinkg";
+            // sw($token);
+            $expFormat = mktime(
+                date("H"), date("i"), date("s"), date("m"), date("d")+1, date("Y")
+            );
+            $expDate = date("Y-m-d H:i:s", $expFormat);
+
+            $result = updateById('users', $id, ['password' => "",'token' => $token, 'pass_exp_date' => $expDate]);
+            
+            sendPasswordResetLink($email, $token);
+    
+            $_SESSION['message'] = 'Email sent successfully, check your email.';
+            $_SESSION['type'] = 'success';
+        }
+        else{
+            $_SESSION['message'] = "We've already sent you an email with. Check your email.";
+            $_SESSION['type'] = 'error';
+        }
     }
 }
 
@@ -46,15 +62,7 @@ if(isset($_POST['reset-pass-btn'])){
     $password = $_POST['password'];
     $passwordConf = $_POST['passwordConf'];
 
-    if(empty($password)){
-        array_push($errors, 'Password is required');
-    }
-    if(strlen($password) < 8){
-        array_push($errors, 'Password should be at least 8 characters');
-}
-    if($passwordConf !== $password){
-        array_push($errors, 'Password do not match');
-    }
+    $errors = validatePassword($_POST);
 
     $password = password_hash($password, PASSWORD_DEFAULT);
     $email = $_SESSION['email'];

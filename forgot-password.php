@@ -1,6 +1,12 @@
 <?php
 include("path.php");
 require_once(ROOT_PATH . "/app/controllers/resetPassController.php");
+
+// Reset password by token
+if(isset($_GET['password-token'])){
+    $passwordToken = $_GET['password-token'];
+    resetPassword($passwordToken);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,9 +26,8 @@ require_once(ROOT_PATH . "/app/controllers/resetPassController.php");
 <main class="main container">
     <form action="forgot-password.php" method="POST" class="main__section">
         <h1 class="main__title">Forgot your Password</h1>
-        <p>            
-            Please enter the email address you used to register here.
-            We will send you an email with instructions to reset your password.
+        <p class="main__text">
+            Enter your user account's email address and we will send you a password reset link.
         </p>
         <?php include(ROOT_PATH . "/app/helpers/formErrors.php"); ?>
         <?php include(ROOT_PATH . '/app/includes/messages.php'); ?>
