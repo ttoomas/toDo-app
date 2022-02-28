@@ -35,9 +35,12 @@ if(isset($_POST['register-btn'])){
         // sw($_POST);
         
         $user_id = create($table, $_POST);
-        $user = selectOne($table, ['id' => $user_id]);
         
-        loginUser($user);
+        $_SESSION['message'] = "Your registration was success";
+        $_SESSION['type'] = "success";
+
+        header('location: ' . BASE_URL . '/');
+        exit();
     }
     else{
         $username = $_POST['username'];

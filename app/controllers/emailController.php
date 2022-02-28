@@ -32,7 +32,7 @@ function sendPasswordResetLink($userEmail, $userToken)
 
             Please click on the link bellow to reset your password.
         </h3>
-        <a href="' . $pagePath .'/app/extra-pages/verify-token.php?password-token=' . $userToken .'">
+        <a href="' . $pagePath .'/verify-token.php?password-token=' . $userToken .'">
             Reset your password here!
         </a>';
     $altBody = '
@@ -40,7 +40,7 @@ function sendPasswordResetLink($userEmail, $userToken)
 
         Please click on the link bellow to reset your password.
         
-        ' . $pagePath .'/app/extra-pages/verify-token.php?password-token=' . $userToken .'';
+        ' . $pagePath .'/verify-token.php?password-token=' . $userToken .'';
 
 
     $mail->addAddress($userEmail);

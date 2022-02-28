@@ -11,6 +11,12 @@ function validateEmail($user)
         array_push($errors, 'Email required');
     }
 
+    $checkMail = selectOne('users', ['email' => $user]);
+    
+    if(empty($checkMail)){
+        array_push($errors, 'This email is not registered');
+    }
+
     return $errors;
 }
 

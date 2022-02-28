@@ -6,6 +6,8 @@ include(ROOT_PATH . "/app/helpers/validatePassword.php");
 
 $errors = array();
 
+$table = 'users';
+
 // Send reset email
 if(isset($_POST['forgot-pass-btn'])){
     $email = $_POST['email'];
@@ -13,24 +15,22 @@ if(isset($_POST['forgot-pass-btn'])){
     $errors = validateEmail($email);
 
     if(count($errors) == 0){
-        $user = selectOne('users', ['email' => $email]);
+        $user = selectOne($table, ['email' => $email]);
 
+        $token = $user['token'];
         $curDate = date("Y-m-d H:i:s");
 
         if(empty($user['pass_exp_date']) || $user['pass_exp_date'] <= $curDate){
             // sw($user);
             
             $id = $user['id'];
-            $token = bin2hex(random_bytes(55));
-            // $token = $user['token'];
-            // $token = "somethinkg";
-            // sw($token);
+            
             $expFormat = mktime(
-                date("H"), date("i"), date("s"), date("m"), date("d")+1, date("Y")
+                date("H")+6, date("i"), date("s"), date("m"), date("d"), date("Y")
             );
             $expDate = date("Y-m-d H:i:s", $expFormat);
 
-            $result = updateById('users', $id, ['password' => "",'token' => $token, 'pass_exp_date' => $expDate]);
+            $result = updateById($table, $id, ['password' => "", 'pass_exp_date' => $expDate]);
             
             sendPasswordResetLink($email, $token);
     
@@ -49,9 +49,10 @@ function resetPassword($userToken)
 {
     global $conn;
 
-    $user = selectOne('users', ['token' => $userToken]);
+    $user = selectOne($table, ['token' => $userToken]);
 
     $_SESSION['email'] = $user['email'];
+    $_SESSION['pass_exp_date'] = $user['pass_exp_date'];
 
     header('location: ' . BASE_URL . '/reset-password.php');
     exit();
@@ -68,7 +69,9 @@ if(isset($_POST['reset-pass-btn'])){
     $email = $_SESSION['email'];
 
     if(count($errors) == 0){
-        $result = updateByEmail('users', $email, ['password' => $password]);
+        $token = bin2hex(random_bytes(55));
+        
+        $result = updateByEmail($table, $email, ['password' => $password, 'token' => $token, 'pass_exp_date' => 'NULL']);
 
         if($result){
             $_SESSION['message'] = "Password changed successfully";
@@ -78,8 +81,7 @@ if(isset($_POST['reset-pass-btn'])){
             exit();
         }
         else{
-            $_SESSION['message'] = "
-            We're sorry, but the password has not been changed. Please try again later or contact the admin.";
+            $_SESSION['message'] = "Something goes wrong. Please try again later or contact the admin.";
             $_SESSION['type'] = "error";
         }
     }
