@@ -81,6 +81,32 @@ function selectOne($table, $conditions)
     return $records;
 }
 
+function selectOneOr($table, $conditions)
+{
+    global $conn;
+
+    $sql = "SELECT * FROM $table";
+
+    $i = 0;
+
+    foreach($conditions as $key => $value){
+        if($i === 0){
+            $sql = $sql . " WHERE $key=?";
+        }
+        else{
+            $sql = $sql . " OR $key=?";
+        }
+        $i++;
+    }
+
+    // SELECT * FROM users WHERE username'ttoomas' OR id=1 LIMIT 1
+
+    $sql = $sql . " LIMIT 1";
+    $stmt = executeQuery($sql, $conditions);
+    $records = $stmt->get_result()->fetch_assoc();
+    return $records;
+}
+
 function create($table, $data)
 {
     // INSERT INTO users SET username=?, email=?, password=?

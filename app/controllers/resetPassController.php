@@ -6,8 +6,6 @@ include(ROOT_PATH . "/app/helpers/validatePassword.php");
 
 $errors = array();
 
-$table = 'users';
-
 // Send reset email
 if(isset($_POST['forgot-pass-btn'])){
     $email = $_POST['email'];
@@ -15,7 +13,7 @@ if(isset($_POST['forgot-pass-btn'])){
     $errors = validateEmail($email);
 
     if(count($errors) == 0){
-        $user = selectOne($table, ['email' => $email]);
+        $user = selectOne('users', ['email' => $email]);
 
         $token = $user['token'];
         $curDate = date("Y-m-d H:i:s");
@@ -30,7 +28,7 @@ if(isset($_POST['forgot-pass-btn'])){
             );
             $expDate = date("Y-m-d H:i:s", $expFormat);
 
-            $result = updateById($table, $id, ['password' => "", 'pass_exp_date' => $expDate]);
+            $result = updateById('users', $id, ['password' => "", 'pass_exp_date' => $expDate]);
             
             sendPasswordResetLink($email, $token);
     
@@ -49,7 +47,7 @@ function resetPassword($userToken)
 {
     global $conn;
 
-    $user = selectOne($table, ['token' => $userToken]);
+    $user = selectOne('users', ['token' => $userToken]);
 
     $_SESSION['email'] = $user['email'];
     $_SESSION['pass_exp_date'] = $user['pass_exp_date'];
@@ -71,7 +69,7 @@ if(isset($_POST['reset-pass-btn'])){
     if(count($errors) == 0){
         $token = bin2hex(random_bytes(55));
         
-        $result = updateByEmail($table, $email, ['password' => $password, 'token' => $token, 'pass_exp_date' => 'NULL']);
+        $result = updateByEmail('users', $email, ['password' => $password, 'token' => $token, 'pass_exp_date' => 'NULL']);
 
         if($result){
             $_SESSION['message'] = "Password changed successfully";

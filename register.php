@@ -31,11 +31,12 @@ include(ROOT_PATH . "/app/controllers/users.php");
             <label for="email" class="main__label">Email</label>
         </div>
         <div class="main__box">
-            <input type="password" name="password" class="main__input" id="password" placeholder="Password">
+            <input type="password" name="password" class="main__input swPassword" id="password" placeholder="Password">
             <label for="password" class="main__label">Password</label>
+            <img src="assets/images/show.png" alt="show password button" class="sw__password show">
         </div>
         <div class="main__box">
-            <input type="password" name="passwordConf" class="main__input" id="passwordConf" placeholder="PasswordConf">
+            <input type="password" name="passwordConf" class="main__input swPassword" id="passwordConf" placeholder="PasswordConf">
             <label for="passwordConf" class="main__label">Confirm Password</label>
         </div>
         <div class="main__enterBx">
@@ -47,6 +48,9 @@ include(ROOT_PATH . "/app/controllers/users.php");
         <p class="main__dontAcc">Have you already account?<a href="<?php echo BASE_URL . '/' ?>" class="main__dontLink">Login</a></p>
     </form>
 </main>
+
+<!-- JS -->
+<script defer src="assets/js/main-password.js"></script>
 
 </body>
 </html>

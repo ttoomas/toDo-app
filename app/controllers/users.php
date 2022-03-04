@@ -57,7 +57,7 @@ if(isset($_POST['login-btn'])){
     $errors = validateLogin($_POST);
 
     if(count($errors) === 0){
-        $user = selectOne($table, ['username' => $_POST['username']]);
+        $user = selectOneOr($table, ['username' => $_POST['username'], 'email' => $_POST['username']]);
 
         if($user && password_verify($_POST['password'], $user['password'])){
             loginUser($user);

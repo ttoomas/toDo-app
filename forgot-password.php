@@ -24,7 +24,7 @@ if(isset($_GET['password-token'])){
 <?php include(ROOT_PATH . '/app/includes/header.php'); ?>
 
 <main class="main container">
-    <form action="forgot-password.php" method="POST" class="main__section">
+    <form action="forgot-password.php" method="POST" class="main__section invalid__section">
         <h1 class="main__title">Forgot your Password</h1>
         <p class="main__text">
             Enter your user account's email address and we will send you a password reset link.

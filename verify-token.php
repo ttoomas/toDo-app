@@ -10,6 +10,10 @@ if(isset($_GET['password-token'])){
         $passwordToken = $_GET['password-token'];
         resetPassword($passwordToken);
     }
+    else{
+        header('location: ' . BASE_URL . '/invalid-token.php');
+        exit();
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -18,17 +22,16 @@ if(isset($_GET['password-token'])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Account verification | ToDo App</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
 </head>
 <body>
 
-<?php if(!$result): ?>
-    <!-- THIS IS ONLY FOR DEVELOPMENT ONLY! REAL PAGE WILL BE MADE LATER -->
-
-    <p>THIS IS ONLY FOR DEVELOPMENT ONLY! REAL PAGE WILL BE MADE LATER</p>
-    <h1><center>There will be a page if the specified token is invalid</center></h1>
-    <p>something like: you got lost? here is index.php. Do you want to change your password but it has expired? forgot-password.php</p>
-<?php endif; ?>
+<main class="main container">
+    <h1 class="main__title invalid__title">Please wait, we will redirect you!</h1>
+</main>
 
 </body>
 </html>

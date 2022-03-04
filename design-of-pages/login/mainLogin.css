@@ -1,22 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap'); /* Inter */
 
 html{
-    font-size: 100%;
-    box-sizing: border-box;
+	font-size: 100%;
+	box-sizing: border-box;
 }
 *, *::before, *::after{
-    box-sizing: inherit;
+	box-sizing: inherit;
 }
 body{
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;;
-    font-weight: 400;
-    font-size: 17px;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
+	margin: 0;
+	padding: 0;
+	font-family: 'Inter', sans-serif;;
+	font-weight: 400;
+	font-size: 17px;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
 }
 
 .container{
@@ -68,6 +68,7 @@ body{
 	margin: auto 0;
 }
 .main__section{
+	max-width: calc(6vw + 11rem);
 	display: flex;
 	align-items: center;
 	flex-direction: column;
@@ -86,6 +87,7 @@ body{
 .main__errors{
 	margin: -0.625rem 0 1.375rem 0;
 	padding: 0;
+	align-self: flex-start;
 }
 .main__error{
 	list-style: none;
@@ -95,6 +97,7 @@ body{
 	margin-bottom: 0.375rem;
 }
 .main__msgBx{
+	width: 135%;
 	margin: -0.875rem 0 1.125rem 0;
 	padding: 0;
 	align-self: flex-start;
@@ -228,6 +231,7 @@ body{
 	margin-left: 0.375rem;
 	text-decoration-style: wavy;
 	text-underline-position: under;
+	text-underline-offset: 0.75px;
 	transition: opacity 180ms ease-in-out;
 }
 .main__dontAcc a:hover{
@@ -235,14 +239,24 @@ body{
 }
 
 @media only screen and (max-width: 72.5em){
-	.main__input{
+	.main__input, .main__enter, .main__or{
 		width: 15.5rem;
 	}
-	.main__enter{
+	.main__section{
+		max-width: unset;
 		width: 15.5rem;
 	}
-	.main__or{
-		width: 15.5rem;
+	.main__msgBx{
+		width: 100%;
+	}
+	.main__dontLink{
+		text-underline-offset: 2px;
+	}
+	.main__title{
+		font-size: 2.125rem;
+	}
+	.main__text{
+		font-size: 1rem;
 	}
 }
 
@@ -278,4 +292,37 @@ body{
     .header{
         padding-bottom: 6rem !important;
     }
+}
+
+/* Show password */
+.sw__password{
+    position: absolute;
+    right: 0.875rem;
+    width: 1.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+/* Invalid error page */
+.invalid__section{
+	max-width: max-content;
+	width: unset;
+}
+.invalid__title{
+	align-self: center;
+}
+.main__textLink{
+	display: flex;
+	align-items: center;
+}
+
+@media only screen and (max-width: 72.5em){
+	.invalid__title{
+		text-align: center;
+	}
+	.main__textLink{
+		flex-direction: column;
+		text-align: center;
+	}
 }

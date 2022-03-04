@@ -24,13 +24,14 @@ include(ROOT_PATH . "/app/controllers/users.php");
         <?php include(ROOT_PATH . '/app/includes/messages.php'); ?>
         <div class="main__box">
             <input type="username" name="username" class="main__input" id="username" required placeholder="Username" value="<?php echo $username; ?>">
-            <label for="username" class="main__label">Username</label>
+            <label for="username" class="main__label">Username or Email</label>
         </div>
         <div class="main__box">
-            <input type="password" name="password" class="main__input" id="password" required placeholder="Password">
+            <input type="password" name="password" class="main__input swPassword" id="password" required placeholder="Password">
             <label for="password" class="main__label">Password</label>
+            <img src="assets/images/show.png" alt="show password button" class="sw__password show">
         </div>
-        <a href="<?php echo BASE_URL . '/forgot-password.php'; ?>" class="main__forgot">Forgot your Password?</a>
+        <a href="<?php echo BASE_URL . '/forgot-password.php' ?>" class="main__forgot">Forgot your Password?</a>
         <div class="main__enterBx">
             <button type="submit" name="login-btn" class="main__enter">Login</button>
         </div>
@@ -40,6 +41,9 @@ include(ROOT_PATH . "/app/controllers/users.php");
         <p class="main__dontAcc">Don't have an account?<a href="<?php echo BASE_URL . '/register.php' ?>" class="main__dontLink">Register</a></p>
     </form>
 </main>
+
+<!-- JS -->
+<script defer src="assets/js/main-password.js"></script>
 
 </body>
 </html>
