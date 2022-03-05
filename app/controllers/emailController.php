@@ -3,7 +3,7 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once (ROOT_PATH . '/app/config/constants.php');
+require_once (ROOT_PATH . '/app/config/public-constants.php');
 require (ROOT_PATH . '/PHPMailer/src/Exception.php');
 require (ROOT_PATH . '/PHPMailer/src/PHPMailer.php');
 require (ROOT_PATH . '/PHPMailer/src/SMTP.php');
