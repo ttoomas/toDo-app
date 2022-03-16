@@ -1,0 +1,539 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap'); /* Inter */
+
+html{
+	font-size: 100%;
+	box-sizing: border-box;
+}
+*, *::before, *::after{
+	box-sizing: inherit;
+}
+body{
+	margin: 0;
+	padding: 0;
+	font-family: 'Inter', sans-serif;;
+	font-weight: 400;
+	font-size: 17px;
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: row;
+}
+p{
+    margin: 0;
+}
+.disNone{
+    display: none !important;
+}
+
+/* Custom scrollbar for sidebar and main content */
+.side::-webkit-scrollbar,
+.main::-webkit-scrollbar{
+    width: 0.5rem;
+}
+.side::-webkit-scrollbar-track,
+.main::-webkit-scrollbar-track{
+    background-color: #f1f1f1;
+    border-radius: 1rem;
+}
+.side::-webkit-scrollbar-thumb,
+.main::-webkit-scrollbar-thumb{
+    background-color: #a7a7a7;
+    border-radius: 1rem;
+}
+.side::-webkit-scrollbar-thumb:hover,
+.main::-webkit-scrollbar-thumb:hover{
+    background-color: #949494;
+}
+
+/* Side Bar */
+.side{
+    min-width: 20rem;
+    max-width: 20rem;
+    min-height: 100vh;
+    padding: 2rem 0 2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+}
+.side__hamMenu{
+    display: none;
+}
+.side__name{
+    text-transform: capitalize;
+    margin-bottom: 0.375rem;
+}
+.side__listBx{
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 3rem 2rem 0;
+}
+.side__list:not(:last-child){
+    margin-bottom: 0.625rem;
+}
+.side__list{
+    background-color: black;
+    color: white;
+    text-decoration: none;
+    padding: 0.625rem 1.75rem;
+    border-radius: 0.3125rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.side__new{
+    position: relative;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: auto;
+}
+.new__label{
+    position: absolute;
+    font-size: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.875rem;
+    pointer-events: none;
+    transition: font-size 165ms ease-in-out, top 165ms ease-in-out;
+}
+.new__input:focus + .new__label,
+.new__input:not(:placeholder-shown) + .new__label{
+    font-size: 0.8125rem;
+    top: 0.9375rem;
+}
+.new__input{
+    padding: 2rem 0.5rem 0.625rem 0.875rem;
+    margin: 0;
+    outline: 0;
+    font-size: 1rem;
+    width: 14.75rem;
+    border: 1px solid black;
+    border-radius: 0.3125rem;
+}
+.new__input::placeholder{
+    opacity: 0;
+}
+.new__iconBx{
+    border: 0;
+    padding: 0;
+    outline: 0;
+    margin-left: 0.75rem;
+    background-color: unset;
+    cursor: pointer;
+}
+.new__icon{
+    width: 2.0625rem;
+}
+
+/* Main */
+.main{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2rem 2rem 3rem;
+    overflow-y: auto;
+}
+.main__todoName{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.main__name{
+    margin: 0 1.75rem 0 0;
+}
+.main__rename{
+    position: relative;
+}
+.rename__button{
+    background-color: unset;
+    border: none;
+    outline: none;
+    padding: 0;
+    position: relative;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.375rem;
+}
+.rename__button::before{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 45%;
+    height: 0.125rem;
+    bottom: -0.25rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background-color: black;
+    pointer-events: none;
+    transition: width 180ms ease-in-out;
+}
+.rename__button::after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 0%;
+    height: 0.125rem;
+    top: -0.25rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background-color: black;
+    pointer-events: none;
+    transition: width 180ms ease-in-out;
+}
+.rename__button:hover::before{
+    width: 0%;
+}
+.rename__button:hover::after{
+    width: 45%;
+}
+
+.rename__label{
+    position: absolute;
+    font-size: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.875rem;
+    pointer-events: none;
+    transition: opacity 100ms ease-in-out;
+}
+.rename__input:focus + .rename__label,
+.rename__input:not(:placeholder-shown) + .rename__label{
+    opacity: 0;
+}
+.rename__input{
+    padding: 1rem 0.5rem 1rem 0.875rem;
+    margin: 0;
+    outline: 0;
+    font-size: 1rem;
+    width: 14.75rem;
+    border: 1px solid black;
+    border-radius: 0.3125rem;
+}
+.rename__input::placeholder{
+    opacity: 0;
+}
+.rename__buttonEnter{
+    outline: none;
+    font-size: 1rem;
+    border: none;
+    padding: 0.75rem 2rem;
+    margin-left: 0.25rem;
+    background: black;
+    color: white;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition-duration: 270ms;
+    transition-property: color, background-color, box-shadow;
+    transition-timing-function: ease-in-out;
+}
+.rename__buttonEnter:hover{
+    color: black;
+    background-color: white;
+    box-shadow: inset 0 0 0 1.25px black;
+}
+.reBtnEnter__text{
+    display: block;
+}
+.reBtnEnter__img{
+    display: none;
+}
+
+.main__newTask{
+    margin-top: auto;
+}
+
+.main__newTask{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1.5rem;
+}
+.main__newTaskBx{
+    position: relative;
+    width: 75%;
+    margin-right: 1.375rem;
+}
+.newTask__label{
+    position: absolute;
+    font-size: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.875rem;
+    pointer-events: none;
+    transition: font-size 165ms ease-in-out, top 165ms ease-in-out;
+}
+.newTask__input:focus + .newTask__label,
+.newTask__input:not(:placeholder-shown) + .newTask__label{
+    font-size: 0.8125rem;
+    top: 0.9375rem;
+}
+.newTask__input{
+    padding: 2rem 0.5rem 0.625rem 0.875rem;
+    margin: 0;
+    outline: 0;
+    font-size: 1rem;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 0.3125rem;
+}
+.newTask__input::placeholder{
+    opacity: 0;
+}
+.newTask__button{
+    border: none;
+    outline: none;
+    padding: 1.25rem 3rem 1.3125rem 3rem;
+    font-size: 1.125rem;
+    border-radius: 0.3125rem;
+    background: black;
+    color: white;
+    box-shadow: inset 0 0 0 0.125rem black;
+    cursor: pointer;
+    transition-duration: 200ms;
+    transition-property: background, color, box-shadow;
+    transition-timing-function: ease-in-out;
+}
+.newTask__button:hover{
+    background: white;
+    color: black;
+    box-shadow: inset 0 0 0 0.125rem black;
+}
+.newTaskBtn__text{
+    display: block;
+}
+.newTaskBtn__img{
+    display: none;
+}
+
+.main__task{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.main__task:not(:last-child){
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #a7a7a7;
+}
+.task__text{
+    font-size: 1rem;
+    margin-right: 1.625rem;
+}
+.task__btnBx{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.task__button{
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    display: flex;
+    cursor: pointer;
+}
+.taskBtnBx-edit{
+    margin-right: 0.25rem;
+}
+.taskBtn__edit{
+    width: 2.5rem;
+}
+.taskBtn__delete{
+    width: 2.875rem;
+}
+
+.taskBtn__enter{
+    width: 2.25rem;
+}
+.taskBtn__cancel{
+    width: 1.875rem;
+}
+.taskBtnBx-cancel{
+    margin-right: 1rem;
+    padding-left: 2rem;
+}
+.task__inputBx{
+    position: relative;
+    width: 100%;
+}
+.task__inputLabel{
+    position: absolute;
+    font-size: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0.875rem;
+    pointer-events: none;
+    transition: opacity 100ms ease-in-out;
+}
+.task__inputText:focus + .task__inputLabel,
+.task__inputText:not(:placeholder-shown) + .task__inputLabel{
+    opacity: 0;
+}
+.task__inputText{
+    padding: 1rem 0.5rem 1rem 0.875rem;
+    margin: 0;
+    outline: 0;
+    font-size: 1rem;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 0.3125rem;
+}
+.task__inputText::placeholder{
+    opacity: 0;
+}
+
+@media only screen and (max-width: 62em){
+    .side{
+        padding: 1.6875rem 1rem 1rem 0.75rem;
+        position: absolute;
+        left: -20.625rem;
+        z-index: 999;
+        transition: left 300ms ease-in-out;
+        max-height: 100vh;
+    }
+    .main{
+        width: 100%;
+        padding: 1.125rem 1.375rem 1rem 1.125rem;
+    }
+    .side__hamMenu{
+        display: block;
+        align-self: flex-end;
+        cursor: pointer;
+    }
+    .main__hamMenu{
+        display: block;
+        cursor: pointer;
+        margin-right: 1.25rem;
+    }
+    .hamMenu{
+        width: 2.5rem;
+        height: 0.1875rem;
+        background-color: black;
+        display: block;
+    }
+    .hamMenu:not(:last-child){
+        margin-bottom: 0.4375rem;
+    }
+    .side.activeMobile{
+        left: 0;
+    }
+}
+
+@media only screen and (max-width: 25em){
+    .side{
+        padding: 1.6875rem 0.5rem 0.75rem 0.5rem;
+        max-width: 16.5rem;
+        min-width: 16.5rem;
+    }
+    .new__iconBx{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 1rem;
+    }
+    .side__listBx{
+        padding: 1.25rem 1.25rem 1.75rem 0;
+    }
+    .main__hamMenu{
+        margin-right: 1.5rem;
+    }
+    .main__name{
+        font-size: 1.75rem;
+        margin: 0 1.125rem 0 0;
+    }
+    .rename__button{
+        font-size: 0.9375rem;
+    }
+    .main__newTaskBx{
+        width: 100%;
+        margin-right: 0;
+    }
+    .main__newTask{
+        position: relative;
+        padding: 0;
+    }
+    .newTask__button{
+        background: none;
+        padding: 0;
+        box-shadow: none;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 1rem;
+    }
+    .newTaskBtn__text{
+        display: none;
+    }
+    .newTaskBtn__img{
+        display: block;
+        width: 2.125rem;
+    }
+    .newTask__button:hover{
+        background: none;
+        color: none;
+        box-shadow: none;
+    }
+    .rename__input{
+        width: 100%;
+    }
+    .rename__label{
+        font-size: 0.9375rem;
+    }
+}
+
+@media only screen and (max-width: 20em){
+    body{
+        font-size: 0.9375rem;
+    }
+    .side{
+        max-width: 14rem;
+        min-width: 14rem;
+    }
+    .side__listBx{
+        padding: 1.5rem 0 1.5rem 0;
+    }
+    .new__input{
+        width: 12.75rem;
+    }
+    .new__label{
+        font-size: 0.9375rem;
+    }
+    .newTask__label{
+        font-size: 0.9375rem;
+    }
+    .main__name{
+        font-size: 1.5rem;
+    }
+}
+
+@media only screen and (max-width: 32em){
+    .rename__buttonEnter{
+        background: none;
+        padding: 0;
+        box-shadow: none;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 1rem;
+        margin-left: 0;
+    }
+    .rename__buttonEnter:hover{
+        background: none;
+        color: none;
+        box-shadow: none;
+    }
+    .reBtnEnter__text{
+        display: none;
+    }
+    .reBtnEnter__img{
+        display: block;
+        width: 2rem;
+    }
+}

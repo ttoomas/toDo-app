@@ -3,7 +3,12 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once (ROOT_PATH . '/app/config/public-constants.php');
+// For Heroku pages
+// require_once (ROOT_PATH . '/app/config/public-constants.php');
+
+// For development
+require_once (ROOT_PATH . '/app/config/constants.php');
+
 require (ROOT_PATH . '/PHPMailer/src/Exception.php');
 require (ROOT_PATH . '/PHPMailer/src/PHPMailer.php');
 require (ROOT_PATH . '/PHPMailer/src/SMTP.php');

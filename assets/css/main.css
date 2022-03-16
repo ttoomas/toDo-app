@@ -110,7 +110,8 @@ body{
 }
 .main__msg.success{
 	color: #00a300;
-}.main__msg.error{
+}
+.main__msg.error{
 	color: #f40000;
 }
 
