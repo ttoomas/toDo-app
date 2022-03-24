@@ -18,7 +18,7 @@ function loginUser($user)
     $_SESSION['message'] = 'You are now logged in';
     $_SESSION['type'] = 'success';
 
-    header('location: ' . BASE_URL . '/main.php');
+    header('location: ' . BASE_URL . '/todo.php');
     exit();
 }
 
