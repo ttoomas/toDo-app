@@ -1,13 +1,6 @@
 <?php
 include('path.php');
 include(ROOT_PATH . '/app/controllers/todoController.php');
-// include(ROOT_PATH . '/app/controllers/todo-name-save.php');
-
-// include(ROOT_PATH . '/todo-name-save.php');
-
-// include(ROOT_PATH . '/app/database/db.php');
-
-// sw($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -69,15 +62,15 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
             <span class="hamMenu"></span>
         </div>
         <h1 class="main__name">My Day</h1>
-        <div class="main__rename">
+        <form class="main__rename" id="mainRename">
             <input type="text" name="rename-todo" id="rename-todo" class="rename__input disNone" placeholder="ToDo Name" value="My Day">
             <label for="rename-todo" class="rename__label disNone">ToDo Name</label>
-            <button class="rename__buttonEnter disNone">
+            <button type="button" class="rename__buttonEnter disNone" id="renameButtonEnter">
                 <span class="reBtnEnter__text">Enter</span>
                 <img src="assets/images/done.png" alt="" aria-hidden="true" class="reBtnEnter__img">
             </button>
-            <button class="rename__button">Rename</button>
-        </div>
+            <button type="button" class="rename__button">Rename</button>
+        </form>
         <div class="logoutBx mainLogout">
             <a href="<?php echo BASE_URL . '/logout.php'; ?>" class="main__logout">Logout</a>
         </div>
@@ -102,7 +95,7 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
 
     <form class="main__newTask" id="mainNewTask">
         <div class="main__newTaskBx">
-            <input type="text" name="new-task" id="new-task" class="newTask__input" placeholder="New Task Name">
+            <input id="new-task" class="newTask__input" type="text" name="new-task" placeholder="New Task Name">
             <label for="new-task" class="newTask__label">New Task Name</label>
         </div>
         <button type="button" class="newTask__button" id="newTaskButton">

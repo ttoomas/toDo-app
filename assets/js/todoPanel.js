@@ -1,16 +1,9 @@
 // INSERT DATA TO MYSQL TABLES
-// NEW TODO
 $(document).ready(function() {
-    $("#side").keydown(function(event){
-        if(event.keyCode == 13) {
-          event.preventDefault();
-          return false;
-        }
-      });
- 
+    // NEW TODO
     $("#newTodo-btn").click(function() {
-        var todoName = $("#newTodo").val();
-   
+        const todoName = $("#newTodo").val();
+        
         $.ajax({
             type: "POST",
             url: "app/controllers/todo/new-todo.php",
@@ -21,9 +14,76 @@ $(document).ready(function() {
             error: function(xhr, status, error) {
                 console.error(xhr);
             }
-        });  
+        });
+        
+        const newInputVa = document.querySelector('.new__input');
+        newInputVa.value = "";
     });
+
+    $("#side").keydown(function(event){
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    // NEW TASK
+    $("#newTaskButton").click(function() {
+        entered();
+
+        // const newTaskInputVa = document.querySelector('.newTask__input');
+        // newTaskInputVa.value = "";
+    });
+
+    $("#new-task").keydown(function(event){
+        if(event.keyCode == 13) {
+            entered();
+
+            event.preventDefault();
+            return false;
+        }
+    });
+
+    function entered(){
+        // console.log('cliked or entered');
+
+        const taskName = $("#new-task").val();
+        // console.log(taskName);
+        
+        $.ajax({
+            type: "POST",
+            url: "app/controllers/todo/new-task.php",
+            data: {
+                taskName: taskName
+            },
+            cache: false,
+            error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        });
+    }
+
+    // RENAME TODO
+    $("#renameButtonEnter").click(function(){
+        const newTodoName = $("#rename-todo").val();
+        // console.log(renameTodoName);
+
+        $.ajax({
+            type: "POST",
+            url: "app/controllers/todo/rename-todo.php",
+            data: {
+                newTodoName: newTodoName
+            },
+            cache: false,
+            error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        })
+    })
 });
+
+
+
 
 // JS CONTENT CHANGES WITHOUT SAVE
 // RENAME TODO LIST
@@ -106,6 +166,8 @@ newTaskInput.addEventListener('keyup', (newTaskKey) => {
         // console.log('entered to add new task');
 
         newTaskEnterHtml();
+
+        // newTaskInput.value = "";
     }
 })
 
@@ -133,8 +195,6 @@ function newTaskEnterHtml(){
     `;
     
     mainTasks.insertAdjacentHTML('afterbegin', newMainTask);
-    
-    newTaskInput.value = "";
 }
 
 
