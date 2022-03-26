@@ -1,3 +1,12 @@
+// Get id from url
+function $_GET(q,s) {
+    s = (s) ? s : window.location.search;
+    var re = new RegExp('&amp;'+q+'=([^&amp;]*)','i');
+    return (s=s.replace(/^\?/,'&amp;').match(re)) ?s=s[1] :s='';
+}
+const numVal = $_GET('id')
+
+
 // INSERT DATA TO MYSQL TABLES
 $(document).ready(function() {
     // NEW TODO
@@ -54,7 +63,8 @@ $(document).ready(function() {
             type: "POST",
             url: "app/controllers/todo/new-task.php",
             data: {
-                taskName: taskName
+                taskName: taskName,
+                todoId: numVal
             },
             cache: false,
             error: function(xhr, status, error) {
@@ -172,13 +182,10 @@ newTaskInput.addEventListener('keyup', (newTaskKey) => {
 })
 
 function newTaskEnterHtml(){
-    let dateTime = new Date();
-    let currentDate = dateTime.getDate() + "" + (dateTime.getMonth()+1)  + "" + dateTime.getFullYear() + "" + dateTime.getHours() + "" + dateTime.getMinutes() + "" + dateTime.getSeconds() + "" + dateTime.getMilliseconds();
-    
     let newTaskInputData = newTaskInput.value;
     
     let newMainTask = `
-        <div class="main__task main__task${currentDate}">
+        <div class="main__task main__task">
         <p class="task__text">${newTaskInputData}</p>
         <div class="task__inputBx disNone">
         <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" value="${newTaskInputData}">
@@ -186,10 +193,10 @@ function newTaskEnterHtml(){
         </div>
         
         <div class="task__btnBx">
-        <button class="task__button taskBtnBx-edit" onclick="editTaskFunc(${currentDate})"><img src="assets/images/edit.png" alt="" aria-hidden="true" class="taskBtn__edit"></button>
-        <button class="task__button taskBtnBx-delete" onclick="deleteTaskFunc(${currentDate})"><img src="assets/images/delete.png" alt="" aria-hidden="true" class="taskBtn__delete"></button>
-        <button class="task__button taskBtnBx-cancel disNone" onclick="cancelTaskFunc(${currentDate})"><img src="assets/images/cancel.png" alt="" aria-hidden="true" class="taskBtn__cancel"></button>
-        <button class="task__button taskBtnBx-enter disNone" onclick="enterTaskFunc(${currentDate})"><img src="assets/images/done.png" alt="" aria-hidden="true" class="taskBtn__enter"></button>
+        <button class="task__button taskBtnBx-edit"><img src="assets/images/edit.png" alt="" aria-hidden="true" class="taskBtn__edit"></button>
+        <button class="task__button taskBtnBx-delete"><img src="assets/images/delete.png" alt="" aria-hidden="true" class="taskBtn__delete"></button>
+        <button class="task__button taskBtnBx-cancel disNone"><img src="assets/images/cancel.png" alt="" aria-hidden="true" class="taskBtn__cancel"></button>
+        <button class="task__button taskBtnBx-enter disNone"><img src="assets/images/done.png" alt="" aria-hidden="true" class="taskBtn__enter"></button>
         </div>
         </div>
     `;
@@ -198,16 +205,26 @@ function newTaskEnterHtml(){
 }
 
 
-// RENAME TODO TASK
-function editTaskFunc(current){
-    // console.log('cliked to edit task btn')
 
-    const taskEditBtn = document.querySelector(`.main__task${current} .taskBtnBx-edit`);
-    const taskDeleteBtn = document.querySelector(`.main__task${current} .taskBtnBx-delete`);
-    const taskCancelBtn = document.querySelector(`.main__task${current} .taskBtnBx-cancel`);
-    const taskEnterBtn = document.querySelector(`.main__task${current} .taskBtnBx-enter`);
-    const taskText = document.querySelector(`.main__task${current} .task__text`);
-    const taskInputBx = document.querySelector(`.main__task${current} .task__inputBx`);
+// RENAME TODO TASK
+function createDelegatedEventListener(selector, handler) {
+	return (event) => {
+    	if (event.target.matches(selector) || event.target.closest(selector)) {
+        	handler(event);
+        }
+    }
+}
+
+// Edit task
+document.querySelector('body').addEventListener('click', createDelegatedEventListener('.taskBtnBx-edit', event => {
+    let mainTaskEdit = event.target.parentNode.parentNode.parentNode;
+    
+    const taskEditBtn = mainTaskEdit.querySelector('.taskBtnBx-edit');
+    const taskDeleteBtn = mainTaskEdit.querySelector('.taskBtnBx-delete');
+    const taskCancelBtn = mainTaskEdit.querySelector('.taskBtnBx-cancel');
+    const taskEnterBtn = mainTaskEdit.querySelector('.taskBtnBx-enter');
+    const taskText = mainTaskEdit.querySelector('.task__text');
+    const taskInputBx = mainTaskEdit.querySelector('.task__inputBx');
     
     taskEditBtn.classList.add('disNone');
     taskDeleteBtn.classList.add('disNone');
@@ -216,25 +233,25 @@ function editTaskFunc(current){
     taskInputBx.classList.remove('disNone');
     taskCancelBtn.classList.remove('disNone');
     taskEnterBtn.classList.remove('disNone');
-}
+}));
 
-function deleteTaskFunc(current){
-    // console.log('cliked to delete task btn');
-
-    let deleteTask = document.querySelector(`.main__task${current}`);
+// Delete task
+document.querySelector('body').addEventListener('click', createDelegatedEventListener('.taskBtnBx-delete', event => {
+    let mainTaskDel = event.target.parentNode.parentNode.parentNode;
     
-    deleteTask.remove();
-}
+    mainTaskDel.remove();
+}));
 
-function cancelTaskFunc(current){
-    // console.log('cliked to cancel rename btn');
-
-    const taskEditBtn = document.querySelector(`.main__task${current} .taskBtnBx-edit`);
-    const taskDeleteBtn = document.querySelector(`.main__task${current} .taskBtnBx-delete`);
-    const taskCancelBtn = document.querySelector(`.main__task${current} .taskBtnBx-cancel`);
-    const taskEnterBtn = document.querySelector(`.main__task${current} .taskBtnBx-enter`);
-    const taskText = document.querySelector(`.main__task${current} .task__text`);
-    const taskInputBx = document.querySelector(`.main__task${current} .task__inputBx`);
+// Cancel rename task
+document.querySelector('body').addEventListener('click', createDelegatedEventListener('.taskBtnBx-cancel', event => {
+    let mainTaskCancel = event.target.parentNode.parentNode.parentNode;
+    
+    const taskEditBtn = mainTaskCancel.querySelector(' .taskBtnBx-edit');
+    const taskDeleteBtn = mainTaskCancel.querySelector(' .taskBtnBx-delete');
+    const taskCancelBtn = mainTaskCancel.querySelector(' .taskBtnBx-cancel');
+    const taskEnterBtn = mainTaskCancel.querySelector(' .taskBtnBx-enter');
+    const taskText = mainTaskCancel.querySelector(' .task__text');
+    const taskInputBx = mainTaskCancel.querySelector(' .task__inputBx');
 
     taskEditBtn.classList.remove('disNone');
     taskDeleteBtn.classList.remove('disNone');
@@ -243,18 +260,19 @@ function cancelTaskFunc(current){
     taskInputBx.classList.add('disNone');
     taskCancelBtn.classList.add('disNone');
     taskEnterBtn.classList.add('disNone');
-}
+}));
 
-function enterTaskFunc(current){
-    // console.log('cliked to enter update todo task name');
-
-    const taskInput = document.querySelector(`.main__task${current} .task__inputText`);
-    const taskEditBtn = document.querySelector(`.main__task${current} .taskBtnBx-edit`);
-    const taskDeleteBtn = document.querySelector(`.main__task${current} .taskBtnBx-delete`);
-    const taskCancelBtn = document.querySelector(`.main__task${current} .taskBtnBx-cancel`);
-    const taskEnterBtn = document.querySelector(`.main__task${current} .taskBtnBx-enter`);
-    const taskText = document.querySelector(`.main__task${current} .task__text`);
-    const taskInputBx = document.querySelector(`.main__task${current} .task__inputBx`);
+// Enter rename task
+document.querySelector('body').addEventListener('click', createDelegatedEventListener('.taskBtnBx-enter', event => {
+    let mainTaskEnter = event.target.parentNode.parentNode.parentNode;
+    
+    const taskInput = mainTaskEnter.querySelector('.task__inputText');
+    const taskEditBtn = mainTaskEnter.querySelector('.taskBtnBx-edit');
+    const taskDeleteBtn = mainTaskEnter.querySelector('.taskBtnBx-delete');
+    const taskCancelBtn = mainTaskEnter.querySelector('.taskBtnBx-cancel');
+    const taskEnterBtn = mainTaskEnter.querySelector('.taskBtnBx-enter');
+    const taskText = mainTaskEnter.querySelector('.task__text');
+    const taskInputBx = mainTaskEnter.querySelector('.task__inputBx');
 
     let taskInputData = taskInput.value;
 
@@ -267,7 +285,8 @@ function enterTaskFunc(current){
     taskInputBx.classList.add('disNone');
     taskCancelBtn.classList.add('disNone');
     taskEnterBtn.classList.add('disNone');
-}
+}));
+
 
 
 // SIDEBAR OPEN AND CLOSE ON MOBILE

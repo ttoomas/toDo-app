@@ -40,7 +40,7 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
 
         <div class="side__listBx">
             <?php foreach($todos as $key => $todo): ?>
-                <a href="#" class="side__list"><?php echo $todo['todo_name']; ?></a>
+                <a href="todo.php?id=<?php echo $todo['id']; ?>" class="side__list"><?php echo $todo['todo_name']; ?></a>
             <?php endforeach; ?>
         </div>
     
@@ -53,7 +53,6 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
         </div>
     </form>
 </aside>
-
 <main class="main">
     <div class="main__todoName">
         <div class="main__hamMenu">
@@ -61,9 +60,9 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
             <span class="hamMenu"></span>
             <span class="hamMenu"></span>
         </div>
-        <h1 class="main__name">My Day</h1>
+        <h1 class="main__name"><?php echo $todoInfo['todo_name']; ?></h1>
         <form class="main__rename" id="mainRename">
-            <input type="text" name="rename-todo" id="rename-todo" class="rename__input disNone" placeholder="ToDo Name" value="My Day">
+            <input type="text" name="rename-todo" id="rename-todo" class="rename__input disNone" placeholder="ToDo Name" value="<?php echo $todoInfo['todo_name']; ?>">
             <label for="rename-todo" class="rename__label disNone">ToDo Name</label>
             <button type="button" class="rename__buttonEnter disNone" id="renameButtonEnter">
                 <span class="reBtnEnter__text">Enter</span>
@@ -77,20 +76,22 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
     </div>
 
     <div class="main__tasks">
-        <!-- <div class="main__task">
-            <p class="task__text">Lorem ipsum dolor sit</p>
-            <div class="task__inputBx disNone">
-                <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" value="Lorem upsum dolor sit">
-                <label for="task-text" class="task__inputLabel">Task Name</label>
+        <?php foreach($tasks as $key => $task): ?>
+            <div class="main__task main__task<?php echo $task['created_at']; ?>">
+                <p class="task__text"><?php echo $task['task_name']; ?></p>
+                <div class="task__inputBx disNone">
+                    <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" value="<?php echo $task['task_name']; ?>">
+                    <label for="task-text" class="task__inputLabel">Task Name</label>
+                </div>
+    
+                <div class="task__btnBx">
+                    <button class="task__button taskBtnBx-edit"><img src="assets/images/edit.png" alt="" aria-hidden="true" class="taskBtn__edit"></button>
+                    <button class="task__button taskBtnBx-delete"><img src="assets/images/delete.png" alt="" aria-hidden="true" class="taskBtn__delete"></button>
+                    <button class="task__button taskBtnBx-cancel disNone"><img src="assets/images/cancel.png" alt="" aria-hidden="true" class="taskBtn__cancel"></button>
+                    <button class="task__button taskBtnBx-enter disNone"><img src="assets/images/done.png" alt="" aria-hidden="true" class="taskBtn__enter"></button>
+                </div>
             </div>
-
-            <div class="task__btnBx">
-                <button class="task__button taskBtnBx-edit"><img src="assets/images/edit.png" alt="" aria-hidden="true" class="taskBtn__edit"></button>
-                <button class="task__button taskBtnBx-delete"><img src="assets/images/delete.png" alt="" aria-hidden="true" class="taskBtn__delete"></button>
-                <button class="task__button taskBtnBx-cancel disNone"><img src="assets/images/cancel.png" alt="" aria-hidden="true" class="taskBtn__cancel"></button>
-                <button class="task__button taskBtnBx-enter disNone"><img src="assets/images/done.png" alt="" aria-hidden="true" class="taskBtn__enter"></button>
-            </div>
-        </div> -->
+        <?php endforeach; ?>
     </div>
 
     <form class="main__newTask" id="mainNewTask">
