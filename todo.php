@@ -77,7 +77,8 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
 
     <div class="main__tasks">
         <?php foreach($tasks as $key => $task): ?>
-            <div class="main__task main__task<?php echo $task['created_at']; ?>">
+            <div class="main__task" id="main__task">
+                <input type="hidden" name="task-id" class="task-id" value="<?php echo $task['id']; ?>">
                 <p class="task__text"><?php echo $task['task_name']; ?></p>
                 <div class="task__inputBx disNone">
                     <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" value="<?php echo $task['task_name']; ?>">
@@ -108,6 +109,6 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
 
 <!-- js -->
 <script src="assets/js/todoPanel.js"></script>
-    
+
 </body>
 </html>

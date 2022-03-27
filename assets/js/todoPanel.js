@@ -8,6 +8,8 @@ const numVal = $_GET('id')
 
 
 // INSERT DATA TO MYSQL TABLES
+let taskIdFun;
+
 $(document).ready(function() {
     // NEW TODO
     $("#newTodo-btn").click(function() {
@@ -40,8 +42,8 @@ $(document).ready(function() {
     $("#newTaskButton").click(function() {
         entered();
 
-        // const newTaskInputVa = document.querySelector('.newTask__input');
-        // newTaskInputVa.value = "";
+        const newTaskInputVa = document.querySelector('.newTask__input');
+        newTaskInputVa.value = "";
     });
 
     $("#new-task").keydown(function(event){
@@ -67,10 +69,20 @@ $(document).ready(function() {
                 todoId: numVal
             },
             cache: false,
+            success: function(data){
+                taskIdFun = data;
+            },
             error: function(xhr, status, error) {
                 console.error(xhr);
             }
         });
+
+        // $.get("app/controllers/todo/new-task.php", function(data, status){
+        //     console.log(status)
+        //     if(status == "success"){
+        //         console.log(data)
+        //     }
+        // })
     }
 
     // RENAME TODO
@@ -177,31 +189,33 @@ newTaskInput.addEventListener('keyup', (newTaskKey) => {
 
         newTaskEnterHtml();
 
-        // newTaskInput.value = "";
+        newTaskInput.value = "";
     }
 })
 
 function newTaskEnterHtml(){
     let newTaskInputData = newTaskInput.value;
-    
+    let taskId = taskIdFun;
+
     let newMainTask = `
-        <div class="main__task main__task">
-        <p class="task__text">${newTaskInputData}</p>
-        <div class="task__inputBx disNone">
-        <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" value="${newTaskInputData}">
-        <label for="task-text" class="task__inputLabel">Task Name</label>
+        <div class="main__task" id="main__task">
+            <input type="hidden" name="task-id" class="task-id" value="${taskId}">
+            <p class="task__text">${newTaskInputData}</p>
+            <div class="task__inputBx disNone">
+                <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" value="${newTaskInputData}">
+                <label for="task-text" class="task__inputLabel">Task Name</label>
+            </div>
+
+            <div class="task__btnBx">
+                <button class="task__button taskBtnBx-edit"><img src="assets/images/edit.png" alt="" aria-hidden="true" class="taskBtn__edit"></button>
+                <button class="task__button taskBtnBx-delete"><img src="assets/images/delete.png" alt="" aria-hidden="true" class="taskBtn__delete"></button>
+                <button class="task__button taskBtnBx-cancel disNone"><img src="assets/images/cancel.png" alt="" aria-hidden="true" class="taskBtn__cancel"></button>
+                <button class="task__button taskBtnBx-enter disNone"><img src="assets/images/done.png" alt="" aria-hidden="true" class="taskBtn__enter"></button>
+            </div>
         </div>
-        
-        <div class="task__btnBx">
-        <button class="task__button taskBtnBx-edit"><img src="assets/images/edit.png" alt="" aria-hidden="true" class="taskBtn__edit"></button>
-        <button class="task__button taskBtnBx-delete"><img src="assets/images/delete.png" alt="" aria-hidden="true" class="taskBtn__delete"></button>
-        <button class="task__button taskBtnBx-cancel disNone"><img src="assets/images/cancel.png" alt="" aria-hidden="true" class="taskBtn__cancel"></button>
-        <button class="task__button taskBtnBx-enter disNone"><img src="assets/images/done.png" alt="" aria-hidden="true" class="taskBtn__enter"></button>
-        </div>
-        </div>
-    `;
+    `
     
-    mainTasks.insertAdjacentHTML('afterbegin', newMainTask);
+    mainTasks.insertAdjacentHTML('beforeend', newMainTask);
 }
 
 
@@ -225,6 +239,7 @@ document.querySelector('body').addEventListener('click', createDelegatedEventLis
     const taskEnterBtn = mainTaskEdit.querySelector('.taskBtnBx-enter');
     const taskText = mainTaskEdit.querySelector('.task__text');
     const taskInputBx = mainTaskEdit.querySelector('.task__inputBx');
+    const taskInput = mainTaskEdit.querySelector('.task__inputText');
     
     taskEditBtn.classList.add('disNone');
     taskDeleteBtn.classList.add('disNone');
@@ -238,8 +253,21 @@ document.querySelector('body').addEventListener('click', createDelegatedEventLis
 // Delete task
 document.querySelector('body').addEventListener('click', createDelegatedEventListener('.taskBtnBx-delete', event => {
     let mainTaskDel = event.target.parentNode.parentNode.parentNode;
+    let taskIdDel = mainTaskDel.querySelector('.task-id').value;
     
     mainTaskDel.remove();
+
+    $.ajax({
+        type: "POST",
+        url: "app/controllers/todo/delete-task.php",
+        data: {
+            taskId: taskIdDel
+        },
+        cache: false,
+        error: function(xhr, status, error) {
+            console.error(xhr);
+        }
+    })
 }));
 
 // Cancel rename task
@@ -273,9 +301,10 @@ document.querySelector('body').addEventListener('click', createDelegatedEventLis
     const taskEnterBtn = mainTaskEnter.querySelector('.taskBtnBx-enter');
     const taskText = mainTaskEnter.querySelector('.task__text');
     const taskInputBx = mainTaskEnter.querySelector('.task__inputBx');
+    
+    let taskIdEdit = mainTaskEnter.querySelector('.task-id').value;
 
     let taskInputData = taskInput.value;
-
     taskText.textContent = taskInputData;
 
     taskEditBtn.classList.remove('disNone');
@@ -285,6 +314,19 @@ document.querySelector('body').addEventListener('click', createDelegatedEventLis
     taskInputBx.classList.add('disNone');
     taskCancelBtn.classList.add('disNone');
     taskEnterBtn.classList.add('disNone');
+
+    $.ajax({
+        type: "POST",
+        url: "app/controllers/todo/update-task.php",
+        data: {
+            newTaskName: taskInputData,
+            taskId: taskIdEdit
+        },
+        cache: false,
+        error: function(xhr, status, error) {
+            console.error(xhr);
+        }
+    })
 }));
 
 
