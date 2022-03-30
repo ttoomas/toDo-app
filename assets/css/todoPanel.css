@@ -163,10 +163,11 @@ p{
     overflow-y: auto;
 }
 .main__todoName{
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2.75rem;
 }
 .main__name{
     margin: 0 1.75rem 0 0;
@@ -307,11 +308,12 @@ p{
 }
 
 .main__newTask{
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding-top: 1.5rem;
+    padding-top: 3rem;
 }
 .main__newTaskBx{
     position: relative;
@@ -442,6 +444,9 @@ p{
     width: 100%;
     border: 1px solid black;
     border-radius: 0.3125rem;
+}
+.task__inputBx.errorActive .task__inputText{
+    padding: 1rem 17rem 1rem 0.875rem;
 }
 .task__inputText::placeholder{
     opacity: 0;
@@ -647,4 +652,50 @@ p{
         display: block;
         width: 2rem;
     }
+}
+
+/* Errors */
+.error{
+    color: #ff5353;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+}
+
+.new__error{
+    position: absolute;
+    top: -2.125rem;
+    display: none;
+}
+.side__new.errorActive .new__error{
+    display: block;
+}
+
+.rename__error{
+    position: absolute;
+    bottom: -2rem;
+    display: none;
+}
+.main__todoName.errorActive .rename__error{
+    display: block;
+}
+
+.newTask__error{
+    position: absolute;
+    top: 0.625rem;
+    left: 0;
+    display: none;
+}
+.main__newTask.errorActive .newTask__error{
+    display: block;
+}
+
+.renameTask__error{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 1rem;
+    display: none;
+}
+.task__inputBx.errorActive .renameTask__error{
+    display: block;
 }

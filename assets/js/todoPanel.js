@@ -21,23 +21,29 @@ $(document).ready(function() {
     // NEW TODO
     $("#newTodo-btn").click(function() {
         const todoName = $("#newTodo").val();
-        
-        $.ajax({
-            type: "POST",
-            url: "app/controllers/todo/new-todo.php",
-            data: {
-                todoName: todoName
-            },
-            cache: false,
-            success: function(data){
-                todoIdFun = data;
 
-                newTodoEnterHtml(todoIdFun);
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr);
-            }
-        });
+        if(todoName.length < 4){
+            $(".side__new").addClass('errorActive');
+        }
+        else{
+            $(".side__new").removeClass('errorActive');
+            $.ajax({
+                type: "POST",
+                url: "app/controllers/todo/new-todo.php",
+                data: {
+                    todoName: todoName
+                },
+                cache: false,
+                success: function(data){
+                    todoIdFun = data;
+    
+                    newTodoEnterHtml(todoIdFun);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            });
+        }
     });
 
     $("#side").keydown(function(event){
@@ -52,19 +58,28 @@ $(document).ready(function() {
         const newTodoName = $("#rename-todo").val();
         
         // console.log(numVal);
+        
+        if(newTodoName.length < 4){
+            $(".main__todoName").addClass('errorActive');
+        }
+        else{
+            $(".main__todoName").removeClass('errorActive');
 
-        $.ajax({
-            type: "POST",
-            url: "app/controllers/todo/rename-todo.php",
-            data: {
-                newTodoName: newTodoName,
-                taskId: numVal
-            },
-            cache: false,
-            error: function(xhr, status, error) {
-                console.error(xhr);
-            }
-        })
+            renameTodoEnterHtml();
+
+            $.ajax({
+                type: "POST",
+                url: "app/controllers/todo/rename-todo.php",
+                data: {
+                    newTodoName: newTodoName,
+                    taskId: numVal
+                },
+                cache: false,
+                error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            })
+        }
     })
 
     $("#rename-todo").keydown(function(event){
@@ -89,28 +104,33 @@ $(document).ready(function() {
     });
 
     function entered(){
-        // console.log('cliked or entered');
-
         const taskName = $("#new-task").val();
         // console.log(taskName);
-        
-        $.ajax({
-            type: "POST",
-            url: "app/controllers/todo/new-task.php",
-            data: {
-                taskName: taskName,
-                todoId: numVal
-            },
-            cache: false,
-            success: function(data){
-                taskIdFun = data;
 
-                newTaskEnterHtml(taskIdFun);
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr);
-            }
-        });
+        if(taskName.length < 3){
+            $(".main__newTask").addClass('errorActive');
+        }
+        else{
+            $(".main__newTask").removeClass('errorActive');
+
+            $.ajax({
+                type: "POST",
+                url: "app/controllers/todo/new-task.php",
+                data: {
+                    taskName: taskName,
+                    todoId: numVal
+                },
+                cache: false,
+                success: function(data){
+                    taskIdFun = data;
+    
+                    newTaskEnterHtml(taskIdFun);
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            });
+        }
     }
 });
 
@@ -130,12 +150,12 @@ const renameEnterButton = document.querySelector('.rename__buttonEnter');
 let renameInputData = renameInput.value;
 const textProp = 'textContent' in document ? 'textContent' : 'innerText';
 
-renameEnterButton.addEventListener('click', () => {
+function renameTodoEnterHtml(){
     [].slice.call(document.querySelectorAll('a'), 0).forEach(function(aEl) {
         if (aEl[textProp].indexOf(renameInputData) > -1) {
             // console.log('cliked to enter rename button');
             let renameInputData = renameInput.value;
-
+    
             aEl.textContent = renameInputData;
         
             mainName.textContent = renameInputData; // main name change
@@ -148,7 +168,7 @@ renameEnterButton.addEventListener('click', () => {
             renameEnterButton.classList.add('disNone');
         }
     });
-})
+}
 
 renameButton.addEventListener('click', () => {
     // console.log('cliked to rename button');
@@ -306,40 +326,49 @@ document.querySelector('body').addEventListener('click', createDelegatedEventLis
 // Enter rename task
 document.querySelector('body').addEventListener('click', createDelegatedEventListener('.taskBtnBx-enter', event => {
     let mainTaskEnter = event.target.parentNode.parentNode.parentNode;
-    
+
     const taskInput = mainTaskEnter.querySelector('.task__inputText');
-    const taskEditBtn = mainTaskEnter.querySelector('.taskBtnBx-edit');
-    const taskDeleteBtn = mainTaskEnter.querySelector('.taskBtnBx-delete');
-    const taskCancelBtn = mainTaskEnter.querySelector('.taskBtnBx-cancel');
-    const taskEnterBtn = mainTaskEnter.querySelector('.taskBtnBx-enter');
-    const taskText = mainTaskEnter.querySelector('.task__text');
-    const taskInputBx = mainTaskEnter.querySelector('.task__inputBx');
-    
-    let taskIdEdit = mainTaskEnter.querySelector('.task-id').value;
-
     let taskInputData = taskInput.value;
-    taskText.textContent = taskInputData;
+    
+    if(taskInputData.length < 3){
+        $(".task__inputBx").addClass('errorActive');
+    }
+    else{
+        $(".task__inputBx").removeClass('errorActive');
 
-    taskEditBtn.classList.remove('disNone');
-    taskDeleteBtn.classList.remove('disNone');
-    taskText.classList.remove('disNone');
-
-    taskInputBx.classList.add('disNone');
-    taskCancelBtn.classList.add('disNone');
-    taskEnterBtn.classList.add('disNone');
-
-    $.ajax({
-        type: "POST",
-        url: "app/controllers/todo/update-task.php",
-        data: {
-            newTaskName: taskInputData,
-            taskId: taskIdEdit
-        },
-        cache: false,
-        error: function(xhr, status, error) {
-            console.error(xhr);
-        }
-    })
+        const taskEditBtn = mainTaskEnter.querySelector('.taskBtnBx-edit');
+        const taskDeleteBtn = mainTaskEnter.querySelector('.taskBtnBx-delete');
+        const taskCancelBtn = mainTaskEnter.querySelector('.taskBtnBx-cancel');
+        const taskEnterBtn = mainTaskEnter.querySelector('.taskBtnBx-enter');
+        const taskText = mainTaskEnter.querySelector('.task__text');
+        const taskInputBx = mainTaskEnter.querySelector('.task__inputBx');
+        
+        let taskIdEdit = mainTaskEnter.querySelector('.task-id').value;
+    
+        taskText.textContent = taskInputData;
+    
+        taskEditBtn.classList.remove('disNone');
+        taskDeleteBtn.classList.remove('disNone');
+        taskText.classList.remove('disNone');
+    
+        taskInputBx.classList.add('disNone');
+        taskCancelBtn.classList.add('disNone');
+        taskEnterBtn.classList.add('disNone');
+    
+        $.ajax({
+            type: "POST",
+            url: "app/controllers/todo/update-task.php",
+            data: {
+                newTaskName: taskInputData,
+                taskId: taskIdEdit
+            },
+            cache: false,
+            error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        })
+    }
+    
 }));
 
 

@@ -58,6 +58,7 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
         </div>
     
         <div class="side__new">
+            <p class="new__error error">Please enter a valid name</p>
             <input id="newTodo" class="new__input" type="text" name="newTodo" required placeholder="New ToDo">
             <label for="newTodo" class="new__label">New ToDo</label>
             <button type="button" class="new__iconBx" id="newTodo-btn">
@@ -68,6 +69,7 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
 </aside>
 <main class="main">
     <div class="main__todoName">
+        <p class="rename__error error">Please enter a valid name</p>
         <div class="main__hamMenu">
             <span class="hamMenu"></span>
             <span class="hamMenu"></span>
@@ -94,6 +96,7 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
                 <input type="hidden" name="task-id" class="task-id" value="<?php echo $task['id']; ?>">
                 <p class="task__text"><?php echo $task['task_name']; ?></p>
                 <div class="task__inputBx disNone">
+                    <p class="renameTask__error error">Please enter a valid Task name</p>
                     <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" value="<?php echo $task['task_name']; ?>">
                     <label for="task-text" class="task__inputLabel">Task Name</label>
                 </div>
@@ -109,6 +112,7 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
     </div>
 
     <form class="main__newTask" id="mainNewTask">
+        <p class="newTask__error error">Please enter a valid Task name</p>
         <div class="main__newTaskBx">
             <input id="new-task" class="newTask__input" type="text" name="new-task" placeholder="New Task Name">
             <label for="new-task" class="newTask__label">New Task Name</label>
