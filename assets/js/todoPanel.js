@@ -23,10 +23,10 @@ $(document).ready(function() {
         const todoName = $("#newTodo").val();
 
         if(todoName.length < 4){
-            $(".side__new").addClass('errorActive');
+            $(".side__new").addClass('validError');
         }
         else{
-            $(".side__new").removeClass('errorActive');
+            $(".side__new").removeClass('validError');
             $.ajax({
                 type: "POST",
                 url: "app/controllers/todo/new-todo.php",
@@ -35,9 +35,15 @@ $(document).ready(function() {
                 },
                 cache: false,
                 success: function(data){
-                    todoIdFun = data;
-    
-                    newTodoEnterHtml(todoIdFun);
+                    if(data == 'error'){
+                        $('.side__new').addClass('existError');
+                    }
+                    else{
+                        $('.side__new').removeClass('existError');
+                        todoIdFun = data;
+        
+                        newTodoEnterHtml(todoIdFun);
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error(xhr);
@@ -60,12 +66,10 @@ $(document).ready(function() {
         // console.log(numVal);
         
         if(newTodoName.length < 4){
-            $(".main__todoName").addClass('errorActive');
+            $(".main__todoName").addClass('validError');
         }
         else{
-            $(".main__todoName").removeClass('errorActive');
-
-            renameTodoEnterHtml();
+            $(".main__todoName").removeClass('validError');
 
             $.ajax({
                 type: "POST",
@@ -75,6 +79,16 @@ $(document).ready(function() {
                     taskId: numVal
                 },
                 cache: false,
+                success: function(data){
+                    if(data == 'error'){
+                        $(".main__todoName").addClass('existError');
+                    }
+                    else{
+                        $(".main__todoName").removeClass('existError');
+
+                        renameTodoEnterHtml();
+                    }
+                },
                 error: function(xhr, status, error) {
                     console.error(xhr);
                 }
@@ -108,10 +122,10 @@ $(document).ready(function() {
         // console.log(taskName);
 
         if(taskName.length < 3){
-            $(".main__newTask").addClass('errorActive');
+            $(".main__newTask").addClass('validError');
         }
         else{
-            $(".main__newTask").removeClass('errorActive');
+            $(".main__newTask").removeClass('validError');
 
             $.ajax({
                 type: "POST",
@@ -145,6 +159,7 @@ const mainName = document.querySelector('.main__name');
 const renameInput = document.querySelector('.rename__input');
 const renameLabel = document.querySelector('.rename__label');
 const renameEnterButton = document.querySelector('.rename__buttonEnter');
+const renameCancelButton = document.querySelector('.rename__buttonCancel');
 
 // select name from sidelist
 let renameInputData = renameInput.value;
@@ -166,6 +181,7 @@ function renameTodoEnterHtml(){
             renameInput.classList.add('disNone');
             renameLabel.classList.add('disNone');
             renameEnterButton.classList.add('disNone');
+            renameCancelButton.classList.add('disNone');
         }
     });
 }
@@ -179,6 +195,20 @@ renameButton.addEventListener('click', () => {
     renameInput.classList.remove('disNone');
     renameLabel.classList.remove('disNone');
     renameEnterButton.classList.remove('disNone');
+    renameCancelButton.classList.remove('disNone');
+})
+
+// CANCEL RENAME TODO LIST
+renameCancelButton.addEventListener('click', () => {
+    // console.log('cliked to cancel rename todo button');¨
+
+    renameButton.classList.remove('disNone');
+    mainName.classList.remove('disNone');
+    
+    renameInput.classList.add('disNone');
+    renameLabel.classList.add('disNone');
+    renameEnterButton.classList.add('disNone');
+    renameCancelButton.classList.add('disNone');
 })
 
 
@@ -331,10 +361,10 @@ document.querySelector('body').addEventListener('click', createDelegatedEventLis
     let taskInputData = taskInput.value;
     
     if(taskInputData.length < 3){
-        $(".task__inputBx").addClass('errorActive');
+        $(".task__inputBx").addClass('validError');
     }
     else{
-        $(".task__inputBx").removeClass('errorActive');
+        $(".task__inputBx").removeClass('validError');
 
         const taskEditBtn = mainTaskEnter.querySelector('.taskBtnBx-edit');
         const taskDeleteBtn = mainTaskEnter.querySelector('.taskBtnBx-delete');

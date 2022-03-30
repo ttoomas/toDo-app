@@ -4,6 +4,13 @@ include("../../database/db.php");
 
 $todoName = mysqli_real_escape_string($conn, $_POST['todoName']);
 
-$newTodoId = create('todos', ['todo_name' => $todoName, 'created_by' => $_SESSION['id']]);
+$todoCheck = selectOne('todos', ['todo_name' => $todoName]);
 
-echo $newTodoId;
+if($todoCheck){
+    echo "error";
+}
+else{
+    $newTodoId = create('todos', ['todo_name' => $todoName, 'created_by' => $_SESSION['id']]);
+    
+    echo $newTodoId;
+}

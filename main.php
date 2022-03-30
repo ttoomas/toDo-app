@@ -47,6 +47,8 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
         </div>
     
         <div class="side__new">
+            <p class="new__error new__errorValid error">Please enter a valid name</p>
+            <p class="new__error new__errorExist error">This name already exists</p>
             <input id="newTodo" class="new__input" type="text" name="newTodo" required placeholder="New ToDo">
             <label for="newTodo" class="new__label">New ToDo</label>
             <button type="button" class="new__iconBx" id="newTodo-btn">

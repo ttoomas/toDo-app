@@ -58,7 +58,8 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
         </div>
     
         <div class="side__new">
-            <p class="new__error error">Please enter a valid name</p>
+            <p class="new__error new__errorValid error">Please enter a valid name</p>
+            <p class="new__error new__errorExist error">This name already exists</p>
             <input id="newTodo" class="new__input" type="text" name="newTodo" required placeholder="New ToDo">
             <label for="newTodo" class="new__label">New ToDo</label>
             <button type="button" class="new__iconBx" id="newTodo-btn">
@@ -69,7 +70,8 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
 </aside>
 <main class="main">
     <div class="main__todoName">
-        <p class="rename__error error">Please enter a valid name</p>
+        <p class="rename__error rename__errorValid error">Please enter a valid name</p>
+        <p class="rename__error rename__errorExist error">This name already exists</p>
         <div class="main__hamMenu">
             <span class="hamMenu"></span>
             <span class="hamMenu"></span>
@@ -82,6 +84,9 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
             <button type="button" class="rename__buttonEnter disNone" id="renameButtonEnter">
                 <span class="reBtnEnter__text">Enter</span>
                 <img src="assets/images/done.png" alt="" aria-hidden="true" class="reBtnEnter__img">
+            </button>
+            <button type="button" class="rename__buttonCancel disNone" id="renameButtonCancel">
+                <img src="assets/images/cancel.png" alt="" aria-hidden="true" class="reBtnCancel__img">
             </button>
             <button type="button" class="rename__button">Rename</button>
         </form>

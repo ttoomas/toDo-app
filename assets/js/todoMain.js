@@ -13,23 +13,37 @@ $(document).ready(function() {
     // NEW TODO
     $("#newTodo-btn").click(function() {
         const todoName = $("#newTodo").val();
-        
-        $.ajax({
-            type: "POST",
-            url: "app/controllers/todo/new-todo.php",
-            data: {
-                todoName: todoName
-            },
-            cache: false,
-            success: function(data){
-                todoIdFun = data;
 
-                newTodoEnterHtml(todoIdFun);
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr);
-            }
-        });
+        if(todoName.length < 4){
+            $(".side__new").addClass('validError');
+        }
+        else{
+            $(".side__new").removeClass('validError');
+            $.ajax({
+                type: "POST",
+                url: "app/controllers/todo/new-todo.php",
+                data: {
+                    todoName: todoName
+                },
+                cache: false,
+                success: function(data){
+                    if(data == 'error'){
+                        $('.side__new').addClass('existError');
+                    }
+                    else{
+                        $('.side__new').removeClass('existError');
+                        todoIdFun = data;
+        
+                        newTodoEnterHtml(todoIdFun);
+
+                        window.location = `todo.php?id=${todoIdFun}`;
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr);
+                }
+            });
+        }
     });
 
     $("#side").keydown(function(event){
