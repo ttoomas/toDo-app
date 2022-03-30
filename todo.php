@@ -32,15 +32,28 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
             <a href="<?php echo BASE_URL . '/logout.php'; ?>" class="main__logout">Logout</a>
         </div>
     
-        <!-- <div class="side__listBx">
-            <a href="#" class="side__list">My Day</a>
-            <a href="#" class="side__list">My 2 Day</a>
-            <a href="#" class="side__list">My 3 Day</a>
+        <!-- <div class="side__listContainer">
+            <div class="side__listBx">
+                <a href="#" class="side__list">
+                    My Day
+                </a>
+                <button type="button" class="sideList__del">
+                    <img src="./assets/images/delete-white.png" class="sideListDel__img" alt="#" aria-hidden="true">
+                </button>
+            </div>
         </div> -->
 
-        <div class="side__listBx">
+        <div class="side__listContainer">
             <?php foreach($todos as $key => $todo): ?>
-                <a href="todo.php?id=<?php echo $todo['id']; ?>" class="side__list"><?php echo $todo['todo_name']; ?></a>
+                <div class="side__listBx">
+                    <input type="hidden" name="todo-id" class="todo-id" value="<?php echo $todo['id']; ?>">
+                    <a href="todo.php?id=<?php echo $todo['id']; ?>" class="side__list">
+                        <?php echo $todo['todo_name']; ?>
+                    </a>
+                    <button type="button" class="sideList__del">
+                        <img src="./assets/images/delete-white.png" class="sideListDel__img" alt="#" aria-hidden="true">
+                    </button>
+                </div>
             <?php endforeach; ?>
         </div>
     

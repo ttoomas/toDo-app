@@ -4,12 +4,19 @@ function $_GET(q,s) {
     var re = new RegExp('&amp;'+q+'=([^&amp;]*)','i');
     return (s=s.replace(/^\?/,'&amp;').match(re)) ?s=s[1] :s='';
 }
-const numVal = $_GET('id')
+let numVal = $_GET('id');
+
+// Select dynamically or statically added element
+function createDelegatedEventListener(selector, handler) {
+	return (event) => {
+    	if (event.target.matches(selector) || event.target.closest(selector)) {
+        	handler(event);
+        }
+    }
+}
 
 
 // INSERT DATA TO MYSQL TABLES
-let taskIdFun;
-
 $(document).ready(function() {
     // NEW TODO
     $("#newTodo-btn").click(function() {
@@ -22,13 +29,15 @@ $(document).ready(function() {
                 todoName: todoName
             },
             cache: false,
+            success: function(data){
+                todoIdFun = data;
+
+                newTodoEnterHtml(todoIdFun);
+            },
             error: function(xhr, status, error) {
                 console.error(xhr);
             }
         });
-        
-        const newInputVa = document.querySelector('.new__input');
-        newInputVa.value = "";
     });
 
     $("#side").keydown(function(event){
@@ -38,12 +47,36 @@ $(document).ready(function() {
         }
     });
 
+    // RENAME TODO
+    $("#renameButtonEnter").click(function(){
+        const newTodoName = $("#rename-todo").val();
+        
+        // console.log(numVal);
+
+        $.ajax({
+            type: "POST",
+            url: "app/controllers/todo/rename-todo.php",
+            data: {
+                newTodoName: newTodoName,
+                taskId: numVal
+            },
+            cache: false,
+            error: function(xhr, status, error) {
+                console.error(xhr);
+            }
+        })
+    })
+
+    $("#rename-todo").keydown(function(event){
+        if(event.keyCode == 13) {
+            event.preventDefault();
+            return false;
+        }
+    });
+
     // NEW TASK
     $("#newTaskButton").click(function() {
         entered();
-
-        const newTaskInputVa = document.querySelector('.newTask__input');
-        newTaskInputVa.value = "";
     });
 
     $("#new-task").keydown(function(event){
@@ -71,37 +104,14 @@ $(document).ready(function() {
             cache: false,
             success: function(data){
                 taskIdFun = data;
+
+                newTaskEnterHtml(taskIdFun);
             },
             error: function(xhr, status, error) {
                 console.error(xhr);
             }
         });
-
-        // $.get("app/controllers/todo/new-task.php", function(data, status){
-        //     console.log(status)
-        //     if(status == "success"){
-        //         console.log(data)
-        //     }
-        // })
     }
-
-    // RENAME TODO
-    $("#renameButtonEnter").click(function(){
-        const newTodoName = $("#rename-todo").val();
-        // console.log(renameTodoName);
-
-        $.ajax({
-            type: "POST",
-            url: "app/controllers/todo/rename-todo.php",
-            data: {
-                newTodoName: newTodoName
-            },
-            cache: false,
-            error: function(xhr, status, error) {
-                console.error(xhr);
-            }
-        })
-    })
 });
 
 
@@ -153,50 +163,61 @@ renameButton.addEventListener('click', () => {
 
 
 // CREATE NEW TODO
-const newButton = document.querySelector('.new__iconBx');
 const newInput = document.querySelector('.new__input');
-let sideListBox = document.querySelector('.side__listBx');
+let sideListContainer = document.querySelector('.side__listContainer');
 
-newButton.addEventListener('click', () => {
-    // console.log('cliked to add new todo button');
-
+function newTodoEnterHtml(newTodoId){    
     let newInputData = newInput.value;
-    
-    let newAnchor = document.createElement('a');
-    newAnchor.textContent = newInputData;
-    newAnchor.href = '#';
-    newAnchor.className = 'side__list';
- 
-    sideListBox.appendChild(newAnchor);
-})
 
+    newInput.value = "";    
+    
+    let newTodoList = `
+        <div class="side__listBx">
+            <input type="hidden" name="todo-id" class="todo-id" value="${newTodoId}">
+            <a href="todo.php?id=${newTodoId}" class="side__list">
+                ${newInputData}
+            </a>
+            <button type="button" class="sideList__del">
+                <img src="./assets/images/delete-white.png" class="sideListDel__img" alt="#" aria-hidden="true">
+            </button>
+        </div>
+    `;
+    
+    sideListContainer.insertAdjacentHTML('beforeend', newTodoList);
+}
+
+// DELETE TODO LIST
+document.querySelector('body').addEventListener('click', createDelegatedEventListener('.sideList__del', event => {
+    let todoDel = event.target.parentNode.parentNode;
+    let todoIdDel = todoDel.querySelector('.todo-id').value;
+    
+    todoDel.remove();
+
+    $.ajax({
+        type: "POST",
+        url: "app/controllers/todo/delete-todo.php",
+        data: {
+            todoId: todoIdDel
+        },
+        cache: false,
+        success: function(data){
+            window.location = 'main.php';
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr);
+        }
+    })
+}));
 
 // ADD NEW TODO TASK
 const newTaskInput = document.querySelector('.newTask__input');
-const newTaskBtn = document.querySelector('.newTask__button');
 const mainTasks = document.querySelector('.main__tasks');
 
-
-newTaskBtn.addEventListener('click', () => {
-    // console.log('cliked to add new task btn');
-
-    newTaskEnterHtml();
-})
-
-newTaskInput.addEventListener('keyup', (newTaskKey) => {
-    if(newTaskKey.keyCode === 13){
-        // console.log('entered to add new task');
-
-        newTaskEnterHtml();
-
-        newTaskInput.value = "";
-    }
-})
-
-function newTaskEnterHtml(){
+function newTaskEnterHtml(taskId){
     let newTaskInputData = newTaskInput.value;
-    let taskId = taskIdFun;
 
+    newTaskInput.value = "";
+    
     let newMainTask = `
         <div class="main__task" id="main__task">
             <input type="hidden" name="task-id" class="task-id" value="${taskId}">
@@ -221,14 +242,6 @@ function newTaskEnterHtml(){
 
 
 // RENAME TODO TASK
-function createDelegatedEventListener(selector, handler) {
-	return (event) => {
-    	if (event.target.matches(selector) || event.target.closest(selector)) {
-        	handler(event);
-        }
-    }
-}
-
 // Edit task
 document.querySelector('body').addEventListener('click', createDelegatedEventListener('.taskBtnBx-edit', event => {
     let mainTaskEdit = event.target.parentNode.parentNode.parentNode;
@@ -328,7 +341,6 @@ document.querySelector('body').addEventListener('click', createDelegatedEventLis
         }
     })
 }));
-
 
 
 // SIDEBAR OPEN AND CLOSE ON MOBILE

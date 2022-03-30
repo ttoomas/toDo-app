@@ -1,3 +1,13 @@
+// Select dynamically or statically added element
+function createDelegatedEventListener(selector, handler) {
+	return (event) => {
+    	if (event.target.matches(selector) || event.target.closest(selector)) {
+        	handler(event);
+        }
+    }
+}
+
+
 // INSERT DATA TO MYSQL TABLES
 $(document).ready(function() {
     // NEW TODO
@@ -11,13 +21,15 @@ $(document).ready(function() {
                 todoName: todoName
             },
             cache: false,
+            success: function(data){
+                todoIdFun = data;
+
+                newTodoEnterHtml(todoIdFun);
+            },
             error: function(xhr, status, error) {
                 console.error(xhr);
             }
         });
-        
-        const newInputVa = document.querySelector('.new__input');
-        newInputVa.value = "";
     });
 
     $("#side").keydown(function(event){
@@ -29,26 +41,50 @@ $(document).ready(function() {
 });
 
 
-
-
 // JS CONTENT CHANGES WITHOUT SAVE
 // CREATE NEW TODO
-const newButton = document.querySelector('.new__iconBx');
 const newInput = document.querySelector('.new__input');
-let sideListBox = document.querySelector('.side__listBx');
+let sideListContainer = document.querySelector('.side__listContainer');
 
-newButton.addEventListener('click', () => {
-    // console.log('cliked to add new todo button');
-
+function newTodoEnterHtml(newTodoId){    
     let newInputData = newInput.value;
+
+    newInput.value = "";    
     
-    let newAnchor = document.createElement('a');
-    newAnchor.textContent = newInputData;
-    newAnchor.href = '#';
-    newAnchor.className = 'side__list';
- 
-    sideListBox.appendChild(newAnchor);
-})
+    let newTodoList = `
+        <div class="side__listBx">
+            <input type="hidden" name="todo-id" class="todo-id" value="${newTodoId}">
+            <a href="todo.php?id=${newTodoId}" class="side__list">
+                ${newInputData}
+            </a>
+            <button type="button" class="sideList__del">
+                <img src="./assets/images/delete-white.png" class="sideListDel__img" alt="#" aria-hidden="true">
+            </button>
+        </div>
+    `;
+    
+    sideListContainer.insertAdjacentHTML('beforeend', newTodoList);
+}
+
+// DELETE TODO LIST
+document.querySelector('body').addEventListener('click', createDelegatedEventListener('.sideList__del', event => {
+    let todoDel = event.target.parentNode.parentNode;
+    let todoIdDel = todoDel.querySelector('.todo-id').value;
+    
+    todoDel.remove();
+
+    $.ajax({
+        type: "POST",
+        url: "app/controllers/todo/delete-todo.php",
+        data: {
+            todoId: todoIdDel
+        },
+        cache: false,
+        error: function(xhr, status, error) {
+            console.error(xhr);
+        }
+    })
+}));
 
 // SIDEBAR OPEN AND CLOSE ON MOBILE
 const sideHamMenu = document.querySelector('.side__hamMenu');

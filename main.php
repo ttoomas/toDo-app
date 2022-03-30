@@ -31,16 +31,18 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
         <div class="logoutBx sideLogout">
             <a href="<?php echo BASE_URL . '/logout.php'; ?>" class="main__logout">Logout</a>
         </div>
-    
-        <!-- <div class="side__listBx">
-            <a href="#" class="side__list">My Day</a>
-            <a href="#" class="side__list">My 2 Day</a>
-            <a href="#" class="side__list">My 3 Day</a>
-        </div> -->
 
-        <div class="side__listBx">
+        <div class="side__listContainer">
             <?php foreach($todos as $key => $todo): ?>
-                <a href="todo.php?id=<?php echo $todo['id']; ?>" class="side__list"><?php echo $todo['todo_name']; ?></a>
+                <div class="side__listBx">
+                    <input type="hidden" name="todo-id" class="todo-id" id="todo-id" value="<?php echo $todo['id']; ?>">
+                    <a href="todo.php?id=<?php echo $todo['id']; ?>" class="side__list">
+                        <?php echo $todo['todo_name']; ?>
+                    </a>
+                    <button type="button" class="sideList__del">
+                        <img src="./assets/images/delete-white.png" class="sideListDel__img" alt="#" aria-hidden="true">
+                    </button>
+                </div>
             <?php endforeach; ?>
         </div>
     
@@ -61,9 +63,14 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
             <span class="hamMenu"></span>
             <span class="hamMenu"></span>
         </div>
+        <div class="logoutBx mainLogout">
+            <a href="<?php echo BASE_URL . '/logout.php'; ?>" class="main__logout">Logout</a>
+        </div>
     </div>
-    <!-- ONLY FOR DEVELOPMENT -->
-    <h1>Hello, please select your todo</h1>
+    <div class="main__guide">
+        <h1 class="guide__title">welcome <?php echo $user['username'] ?></h1>
+        <p class="guide__text">Thanks you for using this ToDo application. If you find any error, please contact the owner on email <a href="mailto:todoapp.ttoomas@gmail.com" class="guide__link">todoapp.ttoomas@gmail.com</a></p>
+    </div>
 </main>
 
 <!-- js -->
