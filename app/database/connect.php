@@ -10,11 +10,11 @@
 
 
 // For Heroku pages
-require_once (ROOT_PATH . '/app/config/public-constants.php');
+require_once ('app/config/public-constants.php');
 
-$host = 'us-cdbr-east-05.cleardb.net';
-$user = 'ba8579d8c1871f';
-$db_name = 'heroku_c13cf00049fd9db';
+$host = 'remotemysql.com';
+$user = 'pv5Gz3yfhB';
+$db_name = 'pv5Gz3yfhB';
 
 $conn = new MySQLi($host, $user, dbPassword, $db_name);
 

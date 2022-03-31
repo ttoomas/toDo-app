@@ -36,7 +36,7 @@ $(document).ready(function() {
         
                         newTodoEnterHtml(todoIdFun);
 
-                        window.location = `todo.php?id=${todoIdFun}`;
+                        // window.location = `todo.php?id=${todoIdFun}`;
                     }
                 },
                 error: function(xhr, status, error) {
