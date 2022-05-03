@@ -726,3 +726,10 @@ p{
 .task__inputBx.errorActive .renameTask__error{
     display: block;
 }
+
+.main__newTask.validError .newTask__error{
+    display: block;
+}
+.task__inputBx.validError .renameTask__error{
+    display: block;
+}
