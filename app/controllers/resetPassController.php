@@ -68,8 +68,10 @@ if(isset($_POST['reset-pass-btn'])){
 
     if(count($errors) == 0){
         $token = bin2hex(random_bytes(55));
-        
-        $result = updateByEmail('users', $email, ['password' => $password, 'token' => $token, 'pass_exp_date' => 'NULL']);
+
+        $result = updateByEmail('users', $email, ['password' => $password, 'token' => $token, 'pass_exp_date' => NULL]);
+
+        // sw($result);
 
         if($result){
             $_SESSION['message'] = "Password changed successfully";

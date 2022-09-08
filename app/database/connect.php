@@ -1,23 +1,21 @@
 <?php
 
 // For development
-$host = 'localhost';
-$user = 'root';
-$password = '';
-$db_name = 'todo-app';
+// $host = 'localhost';
+// $user = 'root';
+// $db_password = '';
+// $db_name = 'todo-app';
 
-$conn = new MySQLi($host, $user, $password, $db_name);
+// freedb
+$host = 'sql.freedb.tech';
+$user = 'freedb_todo-user';
+$db_name = 'freedb_todo-app';
+$db_password = '64!hRB5MMJ&c&vd';
 
 
-// For Heroku pages
-// require_once ('app/config/public-constants.php');
+// Conn
+$conn = new MySQLi($host, $user, $db_password, $db_name);
 
-// $host = 'remotemysql.com';
-// $user = 'pv5Gz3yfhB';
-// $db_name = 'pv5Gz3yfhB';
-
-// $conn = new MySQLi($host, $user, dbPassword, $db_name);
-
-// if($conn->connect_error){
-//     die("Database connection error: " . $conn->connect_error);
-// }
+if($conn->connect_error){
+    die("Database connection error: " . $conn->connect_error);
+}
