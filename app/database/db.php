@@ -193,3 +193,26 @@ function delete($table, $id)
     $stmt = executeQuery($sql, ['id' => $id]);
     return $stmt->affected_rows;
 }
+
+function deleteWhere($table, $data)
+{
+    // DELETE FROM users WHERE todo_id=?
+
+    global $conn;
+    $sql = "DELETE FROM $table WHERE ";
+
+    $i = 0;
+
+    foreach($data as $key => $value){
+        if($i === 0){
+            $sql = $sql . " $key=?";
+        }
+        else{
+            $sql = $sql . ", $key=?";
+        }
+        $i++;
+    }
+
+    $stmt = executeQuery($sql, $data);
+    return $stmt->affected_rows;
+}

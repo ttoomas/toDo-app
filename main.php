@@ -1,6 +1,7 @@
 <?php
 include('path.php');
 include(ROOT_PATH . '/app/controllers/todoMainController.php');
+loginOnly();
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +50,7 @@ include(ROOT_PATH . '/app/controllers/todoMainController.php');
         <div class="side__new">
             <p class="new__error new__errorValid error">Please enter a valid name</p>
             <p class="new__error new__errorExist error">This name already exists</p>
-            <input id="newTodo" class="new__input" type="text" name="newTodo" required placeholder="New ToDo">
+            <input id="newTodo" class="new__input" type="text" name="newTodo" required placeholder="New ToDo" autocomplete="off">
             <label for="newTodo" class="new__label">New ToDo</label>
             <button type="button" class="new__iconBx" id="newTodo-btn">
                 <img src="assets/images/plus.png" alt="" aria-hidden="true" class="new__icon">

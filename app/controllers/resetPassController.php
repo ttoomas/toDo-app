@@ -3,6 +3,7 @@
 include(ROOT_PATH . "/app/database/db.php");
 include(ROOT_PATH . "/app/controllers/emailController.php");
 include(ROOT_PATH . "/app/helpers/validatePassword.php");
+include(ROOT_PATH . "/app/helpers/middleware.php");
 
 $errors = array();
 

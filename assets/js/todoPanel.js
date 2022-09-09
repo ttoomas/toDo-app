@@ -273,7 +273,7 @@ function newTaskEnterHtml(taskId){
             <input type="hidden" name="task-id" class="task-id" value="${taskId}">
             <p class="task__text">${newTaskInputData}</p>
             <div class="task__inputBx disNone">
-                <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" value="${newTaskInputData}">
+                <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" autocomplete="off" value="${newTaskInputData}">
                 <label for="task-text" class="task__inputLabel">Task Name</label>
             </div>
 

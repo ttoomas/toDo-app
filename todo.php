@@ -2,6 +2,7 @@
 include('path.php');
 include(ROOT_PATH . '/app/controllers/todoMainController.php');
 include(ROOT_PATH . '/app/controllers/todoController.php');
+loginOnly();
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +62,7 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
         <div class="side__new">
             <p class="new__error new__errorValid error">Please enter a valid name</p>
             <p class="new__error new__errorExist error">This name already exists</p>
-            <input id="newTodo" class="new__input" type="text" name="newTodo" required placeholder="New ToDo">
+            <input id="newTodo" class="new__input" type="text" name="newTodo" required placeholder="New ToDo" autocomplete="off">
             <label for="newTodo" class="new__label">New ToDo</label>
             <button type="button" class="new__iconBx" id="newTodo-btn">
                 <img src="assets/images/plus.png" alt="" aria-hidden="true" class="new__icon">
@@ -80,7 +81,7 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
         </div>
         <h1 class="main__name"><?php echo $todoInfo['todo_name']; ?></h1>
         <form class="main__rename" id="mainRename">
-            <input type="text" name="rename-todo" id="rename-todo" class="rename__input disNone" placeholder="ToDo Name" value="<?php echo $todoInfo['todo_name']; ?>">
+            <input type="text" name="rename-todo" id="rename-todo" class="rename__input disNone" placeholder="ToDo Name" autocomplete="off" value="<?php echo $todoInfo['todo_name']; ?>">
             <label for="rename-todo" class="rename__label disNone">ToDo Name</label>
             <button type="button" class="rename__buttonEnter disNone" id="renameButtonEnter">
                 <span class="reBtnEnter__text">Enter</span>
@@ -103,7 +104,7 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
                 <p class="task__text"><?php echo $task['task_name']; ?></p>
                 <div class="task__inputBx disNone">
                     <p class="renameTask__error error">Please enter a valid Task name</p>
-                    <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" value="<?php echo $task['task_name']; ?>">
+                    <input type="text" name="task-text" id="task-text" class="task__inputText" placeholder="Task Name" autocomplete="off" value="<?php echo $task['task_name']; ?>">
                     <label for="task-text" class="task__inputLabel">Task Name</label>
                 </div>
     
@@ -120,7 +121,7 @@ include(ROOT_PATH . '/app/controllers/todoController.php');
     <form class="main__newTask" id="mainNewTask">
         <p class="newTask__error error">Please enter a valid Task name</p>
         <div class="main__newTaskBx">
-            <input id="new-task" class="newTask__input" type="text" name="new-task" placeholder="New Task Name">
+            <input id="new-task" class="newTask__input" type="text" name="new-task" placeholder="New Task Name" autocomplete="off">
             <label for="new-task" class="newTask__label">New Task Name</label>
         </div>
         <button type="button" class="newTask__button" id="newTaskButton">

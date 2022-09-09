@@ -1,6 +1,7 @@
 <?php
 
 include(ROOT_PATH . '/app/database/db.php');
+include(ROOT_PATH . '/app/helpers/middleware.php');
 require_once(ROOT_PATH . '/app/database/connect.php');
 
 $errors = array();

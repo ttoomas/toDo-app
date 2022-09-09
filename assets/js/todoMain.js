@@ -83,7 +83,7 @@ function newTodoEnterHtml(newTodoId){
 document.querySelector('body').addEventListener('click', createDelegatedEventListener('.sideList__del', event => {
     let todoDel = event.target.parentNode.parentNode;
     let todoIdDel = todoDel.querySelector('.todo-id').value;
-    
+
     todoDel.remove();
 
     $.ajax({

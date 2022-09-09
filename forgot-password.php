@@ -1,6 +1,7 @@
 <?php
 include("path.php");
 require_once(ROOT_PATH . "/app/controllers/resetPassController.php");
+guestsOnly();
 
 // Reset password by token
 if(isset($_GET['password-token'])){
@@ -32,7 +33,7 @@ if(isset($_GET['password-token'])){
         <?php include(ROOT_PATH . "/app/helpers/formErrors.php"); ?>
         <?php include(ROOT_PATH . '/app/includes/messages.php'); ?>
         <div class="main__box">
-            <input type="email" name="email" class="main__input" id="email" required placeholder="Email">
+            <input type="email" name="email" class="main__input" id="email" required placeholder="Email" autocomplete="email">
             <label for="email" class="main__label">Email</label>
         </div>
         <div class="main__enterBx">

@@ -25,12 +25,12 @@ $curDate = date("Y-m-d H:i:s");
             <?php include(ROOT_PATH . '/app/includes/messages.php'); ?>
             <?php include(ROOT_PATH . "/app/helpers/formErrors.php"); ?>
             <div class="main__box">
-                <input type="password" name="password" class="main__input swPassword" id="password" required placeholder="Password">
+                <input type="password" name="password" class="main__input swPassword" id="password" required placeholder="Password" autocomplete="off">
                 <label for="password" class="main__label">Password</label>
             <img src="assets/images/show.png" alt="show password button" class="sw__password show">
             </div>
             <div class="main__box">
-                <input type="password" name="passwordConf" class="main__input swPassword" id="passwordConf" required placeholder="Confirm Password">
+                <input type="password" name="passwordConf" class="main__input swPassword" id="passwordConf" required placeholder="Confirm Password" autocomplete="off">
                 <label for="passwordConf" class="main__label">Confirm Password</label>
             </div>
             <div class="main__enterBx">
