@@ -1,16 +1,16 @@
 <?php
 
 // For development
-// $host = 'localhost';
-// $user = 'root';
-// $db_password = '';
-// $db_name = 'todo-app';
+$host = 'localhost';
+$user = 'root';
+$db_password = '';
+$db_name = 'todo-app';
 
 // freedb
-$host = 'sql.freedb.tech';
-$user = 'freedb_todo-user';
-$db_name = 'freedb_todo-app';
-$db_password = '64!hRB5MMJ&c&vd';
+// $host = 'sql.freedb.tech';
+// $user = 'freedb_todo-user';
+// $db_name = 'freedb_todo-app';
+// $db_password = '64!hRB5MMJ&c&vd';
 
 
 // Conn

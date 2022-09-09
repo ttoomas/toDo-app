@@ -7,13 +7,12 @@ function createDelegatedEventListener(selector, handler) {
     }
 }
 
-
 // INSERT DATA TO MYSQL TABLES
 $(document).ready(function() {
     // NEW TODO
     $("#newTodo-btn").click(function() {
         const todoName = $("#newTodo").val();
-
+        
         if(todoName.length < 4){
             $(".side__new").addClass('validError');
         }
